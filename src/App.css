@@ -2,32 +2,24 @@
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.form {
+  margin-top: 32px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.form__item {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: 50%;
+  height: 32px;
+  margin: auto;
 }
 
-.App-link {
-  color: #61dafb;
+.form__item-label {
+  width: 128px;
+  text-align: right;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.form__item-field {
+  margin-left: 32px;
+  width: calc(100% - 128px);
+  text-align: left;
 }
