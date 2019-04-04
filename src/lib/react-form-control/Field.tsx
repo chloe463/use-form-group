@@ -12,31 +12,18 @@ export interface FieldProps {
   context: any;
 }
 
-export interface FieldState {
-}
-
-export class Field extends Component<FieldProps, FieldState> {
-  constructor(props: FieldProps, context: any) {
-    super(props);
-    this.context = context;
-  }
-
-  public render() {
-    const { render, children, onChange, onFocus, onBlur, control } = this.props;
-    const props = {
-      children,
-      onChange: (e: React.SyntheticEvent<any>) => {
-        console.log(e.currentTarget.value);
-        control.setValue(e.currentTarget.value);
-        onChange && onChange(e);
-      },
-      onFocus,
-      onBlur,
-      value: control.value,
-      touched: control.touched,
-    };
-    return (
-      render(props, this.context)
-    );
-  }
-}
+export const Field: React.FC<FieldProps> = (props: FieldProps) => {
+  const { render, onChange, onFocus, onBlur, control } = props;
+  const childProps = {
+    onChange: (e: React.SyntheticEvent<any>) => {
+      console.log(e.currentTarget.value);
+      control.setValue(e.currentTarget.value);
+      onChange && onChange(e);
+    },
+    onFocus,
+    onBlur,
+    value: control.value,
+    touched: control.touched,
+  };
+  return render(childProps);
+};
