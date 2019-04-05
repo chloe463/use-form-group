@@ -8,7 +8,7 @@ export interface FormControlOption {
   setTouched: (touched: boolean) => void;
   // setErrors: (errors: ValidatorErrors) => void;
   setErrors: (errors: any) => void;
-  validator?: Validator;
+  validator?: Validator | Validator[];
 }
 
 export class FormControl {
@@ -18,7 +18,7 @@ export class FormControl {
   public setValue: (value: any) => void;
   public setTouched: (touched: boolean) => void;
   public setErrors: (errors: any) => void;
-  public validator: Validator | null = null;
+  public validator: Validator | Validator[] | null = null;
 
   constructor(option: FormControlOption) {
     this.value = option.value;

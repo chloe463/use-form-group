@@ -10,6 +10,9 @@ export class Validators {
     if (value === null || value === undefined) {
       return { "required": true };
     }
+    if (typeof value === "string" && value === "") {
+      return { "required": true };
+    }
     return null;
   }
 

@@ -5,7 +5,7 @@ import { FormControl } from "./FormControl";
 type formValue = number | string | boolean | null;
 
 export interface GroupOptions {
-  [key: string]: formValue | [formValue, Validator?] | FormControl;
+  [key: string]: formValue | [formValue, Validator?] | [formValue, Validator[]] | FormControl;
 }
 
 export class FormGroup {

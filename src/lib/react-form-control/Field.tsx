@@ -16,8 +16,20 @@ export const Field: React.FC<FieldProps> = (props: FieldProps) => {
   const { render, onChange, onFocus, onBlur, control } = props;
   const childProps = {
     onChange: (e: React.SyntheticEvent<any>) => {
-      control.setValue(e.currentTarget.value);
+      const value = e.currentTarget.value;
+      control.setValue(value);
       control.setTouched(true);
+      if (control.validator) {
+        if (Array.isArray(control.validator)) {
+          const errors = control.validator
+            .map(validator => validator(value))
+            .filter(Boolean);
+          control.setErrors(errors);
+        } else {
+          const error = control.validator(value);
+          control.setErrors([ error ]);
+        }
+      }
       onChange && onChange(e);
     },
     onFocus,
