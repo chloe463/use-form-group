@@ -16,8 +16,8 @@ export const Field: React.FC<FieldProps> = (props: FieldProps) => {
   const { render, onChange, onFocus, onBlur, control } = props;
   const childProps = {
     onChange: (e: React.SyntheticEvent<any>) => {
-      console.log(e.currentTarget.value);
       control.setValue(e.currentTarget.value);
+      control.setTouched(true);
       onChange && onChange(e);
     },
     onFocus,

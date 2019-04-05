@@ -2,20 +2,31 @@ import { ValidatorErrors, Validator } from "./Validators";
 
 export interface FormControlOption {
   value: any;
-  validator?: Validator;
+  touched: boolean;
+  errors: any[];
   setValue: (value: any) => void;
+  setTouched: (touched: boolean) => void;
+  // setErrors: (errors: ValidatorErrors) => void;
+  setErrors: (errors: any) => void;
+  validator?: Validator;
 }
 
 export class FormControl {
   public value: any;
-  public setValue: (value: any) => void;
-  public validator: Validator | null = null;
   public touched: boolean = false;
   public errors: ValidatorErrors | null = null;
+  public setValue: (value: any) => void;
+  public setTouched: (touched: boolean) => void;
+  public setErrors: (errors: any) => void;
+  public validator: Validator | null = null;
 
   constructor(option: FormControlOption) {
     this.value = option.value;
-    this.validator = option.validator || null;
+    this.touched = option.touched;
+    this.errors = option.errors;
     this.setValue = option.setValue;
+    this.setTouched = option.setTouched;
+    this.setErrors = option.setErrors;
+    this.validator = option.validator || null;
   }
 }

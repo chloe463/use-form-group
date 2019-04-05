@@ -11,26 +11,6 @@ export interface GroupOptions {
 export class FormGroup {
   public controls: { [key: string]: FormControl } = {};
   constructor(options?: GroupOptions) {
-    if (!options) {
-      return;
-    }
-    Object.keys(options).forEach(key => {
-      const option = options[key];
-      if (Array.isArray(option)) {
-        this.controls[key] = new FormControl({
-          value: option[0],
-          validator: option[1] ? option[1] : undefined,
-          setValue: (v) => {}
-        });
-      } else if (option instanceof FormControl) {
-        this.controls[key] = option;
-      } else {
-        this.controls[key] = new FormControl({
-          value: option,
-          setValue: (v) => {}
-        });
-      }
-    });
   }
 
   public setControl(key: string, control: FormControl): void {
@@ -60,12 +40,31 @@ export function useFormGroup(formGroupOptions: GroupOptions) {
     const option = formGroupOptions[key];
     if (Array.isArray(option)) {
       const [value, setValue] = useState(option[0]);
-      formGroup.setControl(key, new FormControl({ value, setValue }));
+      const [touched, setTouched] = useState(false);
+      const [errors, setErrors] = useState([]);
+      formGroup.setControl(key, new FormControl({
+        value,
+        setValue,
+        touched,
+        setTouched,
+        errors,
+        setErrors,
+        validator: option[1],
+      }));
     } else if (option instanceof FormControl) {
       formGroup.setControl(key, option);
     } else {
       const [value, setValue] = useState(option);
-      formGroup.setControl(key, new FormControl({ value, setValue }));
+      const [touched, setTouched] = useState(false);
+      const [errors, setErrors] = useState([]);
+      formGroup.setControl(key, new FormControl({
+        value,
+        setValue,
+        touched,
+        setTouched,
+        errors,
+        setErrors,
+      }));
     }
   });
   return formGroup;
