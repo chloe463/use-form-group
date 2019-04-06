@@ -22,7 +22,6 @@ export class FieldGroup extends Component<FieldGroupProps, FieldGroupState> {
   componentDidMount() {
     Object.keys(this.props.formGroup.controls).forEach((name: string) => {
       const control = this.props.formGroup.controls[name];
-      console.log(control);
       this.setState({ [name]: control.value });
     });
   }
