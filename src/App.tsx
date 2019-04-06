@@ -11,9 +11,17 @@ import {
   useFormGroup
 } from  "./lib/react-form-control";
 
+interface State {
+  text: string;
+  radio: number;
+  checkbox: boolean[];
+  select: number;
+}
+
 const App = () => {
   const formGroup = useFormGroup({
     text: ["abc", Validators.required],
+    // text: ["abc", [Validators.required, Validators.maxLength(5)]],
     radio: [0],
     checkbox: null,
     select: [1],

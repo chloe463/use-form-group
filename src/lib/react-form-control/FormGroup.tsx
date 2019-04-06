@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Validator } from "./Validators";
-import { FormControl } from "./FormControl";
+import { FormControl, FormControlState } from "./FormControl";
 
 type formValue = number | string | boolean | null;
 
@@ -34,36 +34,32 @@ interface FormControlHook {
   [key: string]: FormControl;
 }
 
-export function useFormGroup(formGroupOptions: GroupOptions) {
+export function useFormGroup(formGroupOptions: GroupOptions): FormGroup {
   const formGroup = new FormGroup({});
   Object.keys(formGroupOptions).forEach(key => {
     const option = formGroupOptions[key];
     if (Array.isArray(option)) {
-      const [value, setValue] = useState(option[0]);
-      const [touched, setTouched] = useState(false);
-      const [errors, setErrors] = useState([]);
+      const [control, setControl] = useState<FormControlState>({
+        value: option[0],
+        touched: false,
+        errors: [],
+      });
       formGroup.setControl(key, new FormControl({
-        value,
-        setValue,
-        touched,
-        setTouched,
-        errors,
-        setErrors,
-        validator: option[1],
+        ...control,
+        updateState: setControl,
+        validator: option[1]
       }));
     } else if (option instanceof FormControl) {
       formGroup.setControl(key, option);
     } else {
-      const [value, setValue] = useState(option);
-      const [touched, setTouched] = useState(false);
-      const [errors, setErrors] = useState([]);
+      const [control, setControl] = useState<FormControlState>({
+        value: option,
+        touched: false,
+        errors: [],
+      });
       formGroup.setControl(key, new FormControl({
-        value,
-        setValue,
-        touched,
-        setTouched,
-        errors,
-        setErrors,
+        ...control,
+        updateState: setControl,
       }));
     }
   });

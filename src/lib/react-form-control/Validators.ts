@@ -1,9 +1,10 @@
 export type ValidatorFn = (value: any) => ValidatorErrors | null;
-export type ValidatorPromiseFn = (value: any) => Promise<boolean>;
-export type Validator = ValidatorFn | ValidatorPromiseFn;
+export type ValidatorPromiseFn = (value: any) => Promise<ValidatorErrors>;
+export type AsyncValidatorFn = (value: any) => Promise<ValidatorErrors>;
+export type Validator = ValidatorFn | AsyncValidatorFn;
 export type ValidatorErrors = {
   [key: string]: any;
-};
+} | null;
 
 export class Validators {
   static required: ValidatorFn = (value: any) => {

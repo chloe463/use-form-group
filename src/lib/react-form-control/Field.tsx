@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import { FormControl } from "./FormControl";
+import { ValidatorErrors, ValidatorFn, ValidatorPromiseFn, AsyncValidatorFn } from "./Validators";
 
 export interface FieldProps {
   name?: string;
@@ -17,19 +18,21 @@ export const Field: React.FC<FieldProps> = (props: FieldProps) => {
   const childProps = {
     onChange: (e: React.SyntheticEvent<any>) => {
       const value = e.currentTarget.value;
-      control.setValue(value);
-      control.setTouched(true);
+      let errors: ValidatorErrors[] = [];
       if (control.validator) {
         if (Array.isArray(control.validator)) {
-          const errors = control.validator
+          errors = control.validator
             .map(validator => validator(value))
             .filter(Boolean);
-          control.setErrors(errors);
         } else {
-          const error = control.validator(value);
-          control.setErrors([ error ]);
+          errors = [ control.validator(value) ];
         }
       }
+      control.updateState({
+        value,
+        touched: true,
+        errors
+      });
       onChange && onChange(e);
     },
     onFocus,
