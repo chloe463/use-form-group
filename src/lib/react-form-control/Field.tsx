@@ -10,7 +10,6 @@ export interface FieldProps {
   onChange?: (e: React.SyntheticEvent<any>)  => void;
   onFocus?: (e: React.SyntheticEvent<any>)  => void;
   onBlur?: (e: React.SyntheticEvent<any>)  => void;
-  context: any;
 }
 
 export const Field: React.FC<FieldProps> = (props: FieldProps) => {

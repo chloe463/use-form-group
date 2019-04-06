@@ -4,6 +4,6 @@ import { FormGroup } from "./FormGroup";
 interface ContextValue {
   formGroup: FormGroup | null;
 }
-export const { Provider, Consumer } = createContext<ContextValue>({
+export const FieldContext = createContext<ContextValue>({
   formGroup: null
 });

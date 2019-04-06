@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Provider, Consumer } from "./FieldContext";
+import { FieldContext } from "./FieldContext";
 import { FormGroup } from "./FormGroup";
 import { FormControl } from "./FormControl";
 
@@ -30,9 +30,9 @@ export class FieldGroup extends Component<FieldGroupProps, FieldGroupState> {
   public render() {
     const { formGroup, render } = this.props;
     return (
-      <Provider value={{formGroup}}>
+      <FieldContext.Provider value={{formGroup}}>
         {render({})}
-      </Provider>
+      </FieldContext.Provider>
     );
   }
 }
