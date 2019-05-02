@@ -6,7 +6,7 @@ import { Field } from "./Field";
 
 interface FieldControlProps {
   name?: string;
-  control?: FormControl;
+  control?: FormControl<any>;
   render: React.FC<any>;
   onChange?: (e: React.SyntheticEvent<any>)  => void;
   onFocus?: (e: React.SyntheticEvent<any>)  => void;
@@ -15,6 +15,6 @@ interface FieldControlProps {
 
 export const FieldControl: React.FC<FieldControlProps> = (props: FieldControlProps) => {
   const { formGroup } = useContext(FieldContext);
-  const control: FormControl = formGroup!.getControl(props.name as string);
+  const control = formGroup!.getControl(props.name as string);
   return <Field {...props} control={control} />
 };

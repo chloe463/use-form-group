@@ -1,10 +1,9 @@
-import React, { Component, useState } from 'react';
+import React from 'react';
 import './App.css';
 
 import {
   FormBuilder,
   FormGroup,
-  FormControl,
   FieldGroup,
   FieldControl,
   Validators,
@@ -26,8 +25,6 @@ const App = () => {
     checkbox: null,
     select: [1],
   });
-  console.log(formGroup);
-  console.log(formGroup.values());
 
   return (
     <div className="App">

@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 
 import { FormControl } from "./FormControl";
-import { ValidatorErrors, ValidatorFn, ValidatorPromiseFn, AsyncValidatorFn } from "./Validators";
 
 export interface FieldProps {
   name?: string;
-  control: FormControl;
+  control: FormControl<any>;
   render: React.FunctionComponent<any>;
   onChange?: (e: React.SyntheticEvent<any>)  => void;
   onFocus?: (e: React.SyntheticEvent<any>)  => void;
@@ -15,23 +14,9 @@ export interface FieldProps {
 export const Field: React.FC<FieldProps> = (props: FieldProps) => {
   const { render, onChange, onFocus, onBlur, control } = props;
   const childProps = {
-    onChange: (e: React.SyntheticEvent<any>) => {
-      const value = e.currentTarget.value;
-      let errors: ValidatorErrors[] = [];
-      if (control.validator) {
-        if (Array.isArray(control.validator)) {
-          errors = control.validator
-            .map(validator => validator(value))
-            .filter(Boolean);
-        } else {
-          errors = [ control.validator(value) ];
-        }
-      }
-      control.updateState({
-        value,
-        touched: true,
-        errors
-      });
+    // onChange: (e: React.SyntheticEvent<any>) => {
+    onChange: (e: React.SyntheticEvent<HTMLInputElement, Event>) => {
+      control.setValue(e.currentTarget.value);
       onChange && onChange(e);
     },
     onFocus,

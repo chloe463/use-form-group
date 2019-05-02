@@ -1,39 +1,33 @@
-import { ValidatorErrors, Validator } from "./Validators";
+import { ValidatorErrors, Validator, ValidatorFn } from "./Validators";
+import { useState, useEffect } from "react";
 
-export interface FormControlState {
-  value: any;
+export interface FormControl<T> {
+  value: T;
   touched: boolean;
-  errors: any[];
+  setValue: React.Dispatch<React.SetStateAction<T>>;
+  errors: ValidatorErrors;
 }
 
-export interface FormControlOption {
-  value: any;
-  touched: boolean;
-  errors: any[];
-  updateState: (state: FormControlState) => void;
-  validator?: Validator | Validator[];
-}
+export function useFormControl<T>(defaultValue: T, validator?: Validator | Validator[]): FormControl<T> {
+  const [value, setValue] = useState(defaultValue);
+  const [touched, setTouched] = useState<boolean>(false);
+  const [errors, setErrors] = useState<ValidatorErrors>([]);
+  useEffect(() => {
+    setTouched(true);
+    if (!validator) {
+      return;
+    }
+    if (Array.isArray(validator)) {
+      setErrors(validator.map(fn => fn(value)));
+    } else {
+      setErrors(validator(value));
+    }
+  }, [value]);
 
-export class FormControl {
-  public value: any;
-  public touched: boolean = false;
-  public errors: ValidatorErrors[] | null = null;
-  public updateState: (state: FormControlState) => void;
-  public validator: Validator | Validator[] | null = null;
-
-  constructor(option: FormControlOption) {
-    this.value = option.value;
-    this.touched = option.touched;
-    this.errors = option.errors;
-    this.updateState = option.updateState;
-    this.validator = option.validator || null;
-  }
-
-  public patchState(patch: any) {
-    const currentState = this.value;
-    this.updateState({
-      ...currentState,
-      ...patch
-    });
+  return {
+    value,
+    touched,
+    setValue,
+    errors,
   }
 }

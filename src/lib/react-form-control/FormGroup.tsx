@@ -1,23 +1,22 @@
-import { useState } from "react";
 import { Validator } from "./Validators";
-import { FormControl, FormControlState } from "./FormControl";
+import { useFormControl, FormControl } from "./FormControl";
 
 type formValue = number | string | boolean | null;
 
 export interface GroupOptions {
-  [key: string]: formValue | [formValue, Validator?] | [formValue, Validator[]] | FormControl;
+  [key: string]: formValue | [formValue, Validator?] | [formValue, Validator[]];
 }
 
 export class FormGroup {
-  public controls: { [key: string]: FormControl } = {};
+  public controls: { [key: string]: FormControl<any> } = {};
   constructor(options?: GroupOptions) {
   }
 
-  public setControl(key: string, control: FormControl): void {
+  public setControl(key: string, control: FormControl<any>): void {
     this.controls[key] = control;
   }
 
-  public getControl(name: string): FormControl {
+  public getControl(name: string): FormControl<any> {
     return this.controls[name] || null;
   }
 
@@ -30,38 +29,21 @@ export class FormGroup {
   }
 }
 
-interface FormControlHook {
-  [key: string]: FormControl;
-}
-
 export function useFormGroup(formGroupOptions: GroupOptions): FormGroup {
   const formGroup = new FormGroup({});
+  const formValues: { [key:string]: any } = {};
   Object.keys(formGroupOptions).forEach(key => {
     const option = formGroupOptions[key];
+    let formControl = null;
     if (Array.isArray(option)) {
-      const [control, setControl] = useState<FormControlState>({
-        value: option[0],
-        touched: false,
-        errors: [],
-      });
-      formGroup.setControl(key, new FormControl({
-        ...control,
-        updateState: setControl,
-        validator: option[1]
-      }));
-    } else if (option instanceof FormControl) {
-      formGroup.setControl(key, option);
+      const [value, validator] = option;
+      formControl = useFormControl(value, validator);
     } else {
-      const [control, setControl] = useState<FormControlState>({
-        value: option,
-        touched: false,
-        errors: [],
-      });
-      formGroup.setControl(key, new FormControl({
-        ...control,
-        updateState: setControl,
-      }));
+      const value = option;
+      formControl = useFormControl(value);
     }
+    formValues[key] = formControl.value;
+    formGroup.setControl(key, formControl);
   });
   return formGroup;
 }
