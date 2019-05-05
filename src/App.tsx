@@ -19,15 +19,17 @@ interface State {
 
 const App = () => {
   const formGroup = useFormGroup({
-    text: ["abc", Validators.required],
-    // text: ["abc", [Validators.required, Validators.maxLength(5)]],
-    radio: [0],
+    // text: ["abc", Validators.required],
+    text: ["abc", [Validators.required, Validators.maxLength(2)]],
+    radio: [1],
     checkbox: null,
     select: [1],
   });
 
   return (
     <div className="App">
+      <span>{formGroup.status}</span>
+      <pre>{JSON.stringify(formGroup.errors())}</pre>
       <FieldGroup formGroup={formGroup} render={() => {
         return (
           <form className="form">
@@ -47,15 +49,15 @@ const App = () => {
                   return (
                     <>
                       <label htmlFor="radio1">
-                        <input id="radio1" type="radio" name="radio" value={1} onChange={props.onChange} />
+                        <input id="radio1" type="radio" name="radio" value={1} onChange={props.onChange} checked={props.value == 1} />
                         <span>Radio1</span>
                       </label>
                       <label htmlFor="radio2">
-                        <input id="radio2" type="radio" name="radio" value={2} onChange={props.onChange} />
+                        <input id="radio2" type="radio" name="radio" value={2} onChange={props.onChange} checked={props.value == 2} />
                         <span>Radio2</span>
                       </label>
                       <label htmlFor="radio3">
-                        <input id="radio3" type="radio" name="radio" value={3} onChange={props.onChange} />
+                        <input id="radio3" type="radio" name="radio" value={3} onChange={props.onChange} checked={props.value == 3} />
                         <span>Radio3</span>
                       </label>
                     </>

@@ -1,6 +1,6 @@
 import React  from "react";
 
-import { FieldContext } from "./FieldContext";
+import { FormGroupProvider } from "./FormGroupContext";
 import { FormGroup } from "./FormGroup";
 
 interface FieldGroupProps {
@@ -11,8 +11,8 @@ interface FieldGroupProps {
 export const FieldGroup: React.FC<FieldGroupProps> = (props: FieldGroupProps) => {
   const { formGroup, render } = props;
   return (
-    <FieldContext.Provider value={{formGroup}}>
+    <FormGroupProvider formGroup={formGroup}>
       {render({})}
-    </FieldContext.Provider>
+    </FormGroupProvider>
   );
 };

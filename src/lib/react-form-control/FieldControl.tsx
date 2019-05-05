@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { FieldContext } from "./FieldContext";
+import { FieldContext } from "./FormGroupContext";
 import { FormControl } from "./FormControl";
 import { Field } from "./Field";
 
@@ -14,7 +14,7 @@ interface FieldControlProps {
 }
 
 export const FieldControl: React.FC<FieldControlProps> = (props: FieldControlProps) => {
-  const { formGroup } = useContext(FieldContext);
+  const formGroup = useContext(FieldContext);
   const control = formGroup!.getControl(props.name as string);
   return <Field {...props} control={control} />
 };

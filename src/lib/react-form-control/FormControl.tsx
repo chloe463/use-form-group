@@ -1,5 +1,5 @@
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { ValidatorErrors, Validator, ValidatorFn } from "./Validators";
-import { useState, useEffect } from "react";
 
 export interface FormControl<T> {
   value: T;
@@ -12,13 +12,18 @@ export function useFormControl<T>(defaultValue: T, validator?: Validator | Valid
   const [value, setValue] = useState(defaultValue);
   const [touched, setTouched] = useState<boolean>(false);
   const [errors, setErrors] = useState<ValidatorErrors>([]);
+  const first = useRef<boolean>(true);
   useEffect(() => {
-    setTouched(true);
+    if (first.current) {
+      first.current = false;
+    } else {
+      setTouched(true);
+    }
     if (!validator) {
       return;
     }
     if (Array.isArray(validator)) {
-      setErrors(validator.map(fn => fn(value)));
+      setErrors(validator.map(fn => fn(value)).filter(Boolean));
     } else {
       setErrors(validator(value));
     }

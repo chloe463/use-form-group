@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import { Validator } from "./Validators";
 import { useFormControl, FormControl } from "./FormControl";
 
 type formValue = number | string | boolean | null;
+type FormGroupStatus = "VALID" | "INVALID" | undefined;
 
 export interface GroupOptions {
   [key: string]: formValue | [formValue, Validator?] | [formValue, Validator[]];
@@ -9,7 +11,12 @@ export interface GroupOptions {
 
 export class FormGroup {
   public controls: { [key: string]: FormControl<any> } = {};
+  // public status: FormGroupStatus = undefined;
   constructor(options?: GroupOptions) {
+  }
+
+  get status(): FormGroupStatus {
+    return this.errors().length > 0 ? "INVALID" : "VALID";
   }
 
   public setControl(key: string, control: FormControl<any>): void {
@@ -27,11 +34,16 @@ export class FormGroup {
     });
     return values;
   }
+
+  public errors() {
+    return Object.values(this.controls).map((control: FormControl<any>) => {
+      return control.errors && control.errors.length ? control.errors : null;
+    }).filter(Boolean).flat();
+  }
 }
 
 export function useFormGroup(formGroupOptions: GroupOptions): FormGroup {
   const formGroup = new FormGroup({});
-  const formValues: { [key:string]: any } = {};
   Object.keys(formGroupOptions).forEach(key => {
     const option = formGroupOptions[key];
     let formControl = null;
@@ -42,7 +54,6 @@ export function useFormGroup(formGroupOptions: GroupOptions): FormGroup {
       const value = option;
       formControl = useFormControl(value);
     }
-    formValues[key] = formControl.value;
     formGroup.setControl(key, formControl);
   });
   return formGroup;
