@@ -20,7 +20,7 @@ interface State {
 const App = () => {
   const formGroup = useFormGroup({
     // text: ["abc", Validators.required],
-    text: ["abc", [Validators.required, Validators.maxLength(2)]],
+    text: ["abc", [Validators.required, Validators.maxLength(5)]],
     radio: [1],
     checkbox: null,
     select: [1],

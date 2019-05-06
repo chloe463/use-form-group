@@ -18,15 +18,15 @@ export class Validators {
   }
 
   static maxLength = (length: number): ValidatorFn => (value: string) => {
-    if (value.length >= length) {
-      return { "maxLength": true };
+    if (value.length > length) {
+      return { "maxLength": { maxLength: length, actualLength: value.length } };
     }
     return null;
   }
 
   static minLength = (length: number): ValidatorFn => (value: string) => {
-    if (value.length <= length) {
-      return { "minLength": true };
+    if (value.length < length) {
+      return { "minLength": { minLength: length, actualLength: value.length } };
     }
     return null;
   }
