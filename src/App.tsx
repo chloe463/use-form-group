@@ -2,10 +2,7 @@ import React from 'react';
 import './App.css';
 
 import {
-  FormBuilder,
-  FormGroup,
   FormGroupProvider,
-  FieldGroup,
   FieldControl,
   Validators,
   useFormGroup
@@ -34,8 +31,8 @@ const App = () => {
 
   const _dummy = {
     text: "updated!!!",
-    radio: 2,
-    select: 3,
+    radio: "2",
+    select: "3",
   }
 
   return (
@@ -93,7 +90,7 @@ const App = () => {
                 const { value, setValue } = props;
                 return (
                   <>
-                    <select name="select" onChange={e => setValue(e.target.value)}>
+                    <select name="select" value={value} onChange={e => setValue(e.target.value)}>
                       <option value={1}>option1</option>
                       <option value={2}>option2</option>
                       <option value={3}>option3</option>

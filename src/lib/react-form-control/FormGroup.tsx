@@ -1,14 +1,6 @@
-import { useState, useEffect, useReducer, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Validator, AsyncValidator, ValidatorErrors } from "./Validators";
-import { FormControl, buildInitialFormControl } from "./FormControl";
-import {
-  FormGroupStatus,
-  IFormGroup,
-  UPDATE_VALUE,
-  UPDATE_ERROR,
-  updateValue,
-} from "./constants";
-import { reducer } from "./Reducer";
+import { FormGroupStatus } from "./constants";
 
 type formValue = number | string | boolean | null;
 export interface Meta {
@@ -21,7 +13,6 @@ export interface Meta {
 type FormValueSetterFn = (keysAndValues: Record<string, any>) => void;
 export interface FormGroup {
   status: FormGroupStatus;
-  // controls: any;
   metaInfos: Record<string, Meta>;
   setValue: FormValueSetterFn;
   values: any;
@@ -35,21 +26,6 @@ export interface GroupOptions {
     [formValue, Validator[]] |
     [formValue, Validator, AsyncValidator?] |
     [formValue, Validator, AsyncValidator[]];
-}
-
-function initFormGroupValues(options: GroupOptions) {
-  const controls: { [key: string]: FormControl<any> } = {};
-  Object.keys(options).forEach(key => {
-    const option = options[key];
-    if (Array.isArray(option)) {
-      const [value, validator, asyncValidator] = option;
-      controls[key] = buildInitialFormControl(value, validator, asyncValidator);
-    } else {
-      const value = option;
-      controls[key] = buildInitialFormControl(value);
-    }
-  });
-  return { controls, status: null };
 }
 
 function initValues(options: GroupOptions) {
