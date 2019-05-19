@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { Validator, AsyncValidator, ValidatorErrors } from "./Validators";
 import { FormGroupStatus } from "./constants";
 
-type formValue = number | string | boolean | null;
+type formValue = number | string | boolean | number[] | string[] | boolean[] | null;
 export interface Meta {
   pristine: boolean;
   dirty: boolean;
@@ -21,7 +21,6 @@ export interface FormGroup {
 
 export interface GroupOptions {
   [key: string]:
-    formValue |
     [formValue, Validator?] |
     [formValue, Validator[]] |
     [formValue, Validator, AsyncValidator?] |

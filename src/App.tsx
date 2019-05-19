@@ -16,12 +16,17 @@ interface State {
 }
 
 const App = () => {
+  const checkboxes = [
+    { value: "val1", checked: false },
+    { value: "val2", checked: true },
+    { value: "val3", checked: false },
+  ];
 
   const formGroup = useFormGroup({
     // text: ["abc", Validators.required],
     text: ["abc", [Validators.required, Validators.maxLength(5)]],
     radio: [1],
-    checkbox: null,
+    checkbox: [checkboxes.filter(c => c.checked).map(c => c.value)],
     select: [1],
   });
   React.useEffect(() => {
@@ -32,6 +37,7 @@ const App = () => {
   const _dummy = {
     text: "updated!!!",
     radio: "2",
+    checkbox: ["val1"],
     select: "3",
   }
 
@@ -81,6 +87,41 @@ const App = () => {
                   );
                 }}
               </FieldControl>
+            </div>
+          </div>
+          <div className="form__item">
+            <div className="form__item-label">Checkboxes</div>
+            <div className="form__item-field">
+            <FieldControl name="checkbox" >
+              {(props: any) => {
+                const { value: currentValue, setValue } = props;
+                return (
+                  <>
+                  {checkboxes.map(checkbox => {
+                    const checked = !!(currentValue.find((v: any) => v === checkbox.value));
+                    return (
+                      <label key={checkbox.value}>
+                        <input
+                          type="checkbox"
+                          value={checkbox.value}
+                          checked={checked}
+                          onChange={e => {
+                            const { value, checked } = e.target;
+                            if (checked) {
+                              setValue([ ...currentValue, value ]);
+                            } else {
+                              setValue([ ...currentValue.filter((v: any) => v !== value ) ]);
+                            }
+                          }}
+                        />
+                        {checkbox.value}
+                      </label>
+                    )
+                  })}
+                  </>
+                );
+              }}
+            </FieldControl>
             </div>
           </div>
           <div className="form__item">
