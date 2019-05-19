@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useCallback } from "react";
+import { useEffect, useReducer, useCallback, useMemo } from "react";
 import { Validator, AsyncValidator, ValidatorErrors } from "./Validators";
 import { FormControl, buildInitialFormControl } from "./FormControl";
 import {
@@ -17,6 +17,7 @@ export interface FormGroup {
   status: FormGroupStatus;
   controls: any;
   setValue: FormValueSetterFn;
+  values: any;
 }
 
 export interface GroupOptions {
@@ -46,9 +47,17 @@ function initFormGroupValues(options: GroupOptions) {
 export function useFormGroup(formGroupOptions: GroupOptions): FormGroup {
   const [formGroup, dispatch] = useReducer(reducer, formGroupOptions, initFormGroupValues);
   const setValue: FormValueSetterFn = useCallback((key: string, value: any) => dispatch(updateValue(key, value)), []);
+  const values = useMemo(() => {
+    const result: { [key: string]: any } = {};
+    Object.keys(formGroup.controls).forEach((key: string) => {
+      result[key] = formGroup.controls[key].value;
+    });
+    return result;
+  }, [formGroup.controls]);
   return {
     status: formGroup.status,
     controls: formGroup.controls,
     setValue,
+    values,
   };
 }

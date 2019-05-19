@@ -27,10 +27,9 @@ const App = () => {
     checkbox: null,
     select: [1],
   });
-  // console.log(formGroup);
   React.useEffect(() => {
     console.log(formGroup);
-  }, [formGroup.controls]);
+  }, [formGroup.values]);
 
   return (
     <div className="App">
