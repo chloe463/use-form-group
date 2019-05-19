@@ -1,10 +1,15 @@
 import React, { useContext, useCallback } from "react";
 
 import { FieldContext } from "./FormGroupContext";
-import { FormControl } from "./FormControl";
+import { ValidatorErrors } from "./Validators";
 
 export interface FieldControlChildrenProps {
-  control: FormControl<any>;
+  value: any;
+  pristine: boolean;
+  dirty: boolean;
+  touched: boolean;
+  untouched: boolean;
+  errors: ValidatorErrors;
   setValue: (value: any) => void;
 }
 
@@ -23,10 +28,12 @@ export const FieldControl: React.FC<FieldControlProps> = (props: FieldControlPro
     ].join(' '));
   }
 
-  const control  = formGroup.controls[name];
-  const setValue = useCallback((value: any) => formGroup.setValue(name, value), [name]);
+  const { values, metaInfos, errors } = formGroup;
+  const setValue = (value: any) => formGroup.setValue({ [name]: value });
   return children({
-    control,
+    value: values[name],
+    ...metaInfos[name],
+    errors: errors ? errors[name] : null,
     setValue,
   });
 };

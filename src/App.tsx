@@ -28,12 +28,19 @@ const App = () => {
     select: [1],
   });
   React.useEffect(() => {
-    console.log(formGroup);
+    console.log(formGroup.values);
   }, [formGroup.values]);
+  // console.log(formGroup.values);
+
+  const _dummy = {
+    text: "updated!!!",
+    radio: 2,
+    select: 3,
+  }
 
   return (
     <div className="App">
-      <button onClick={_e => formGroup.setValue("text", "updated!")} >formGroup.setValue()</button>
+      <button onClick={_e => formGroup.setValue(_dummy)} >formGroup.setValue()</button>
       <FormGroupProvider formGroup={formGroup}>
         <form className="form">
           <div className="form__item">
@@ -41,11 +48,11 @@ const App = () => {
             <div className="form__item-field">
               <FieldControl name="text">
                 {(props: any) => {
-                  const { control, setValue } = props;
+                  const { value, setValue, touched, errors } = props;
                   return (
                     <>
-                      <input type="text" value={control.value} onChange={e => setValue(e.target.value)} />
-                      {control.touched && control.errors && JSON.stringify(control.errors)}
+                      <input type="text" value={value} onChange={e => setValue(e.target.value)} />
+                      {touched && errors && JSON.stringify(errors)}
                     </>
                   );
                 }}
@@ -57,19 +64,19 @@ const App = () => {
             <div className="form__item-field">
               <FieldControl name="radio" >
                 {(props: any) => {
-                  const { control, setValue } = props;
+                  const { value, setValue } = props;
                   return (
                     <>
                       <label htmlFor="radio1">
-                        <input id="radio1" type="radio" name="radio" value={1} onChange={e => setValue(e.target.value)} checked={control.value == 1} />
+                        <input id="radio1" type="radio" name="radio" value={1} onChange={e => setValue(e.target.value)} checked={value == 1} />
                         <span>Radio1</span>
                       </label>
                       <label htmlFor="radio2">
-                        <input id="radio2" type="radio" name="radio" value={2} onChange={e => setValue(e.target.value)} checked={control.value == 2} />
+                        <input id="radio2" type="radio" name="radio" value={2} onChange={e => setValue(e.target.value)} checked={value == 2} />
                         <span>Radio2</span>
                       </label>
                       <label htmlFor="radio3">
-                        <input id="radio3" type="radio" name="radio" value={3} onChange={e => setValue(e.target.value)} checked={control.value == 3} />
+                        <input id="radio3" type="radio" name="radio" value={3} onChange={e => setValue(e.target.value)} checked={value == 3} />
                         <span>Radio3</span>
                       </label>
                     </>
@@ -83,7 +90,7 @@ const App = () => {
             <div className="form__item-field">
             <FieldControl name="select" >
               {(props: any) => {
-                const { control, setValue } = props;
+                const { value, setValue } = props;
                 return (
                   <>
                     <select name="select" onChange={e => setValue(e.target.value)}>
@@ -99,7 +106,7 @@ const App = () => {
           </div>
         </form>
       </FormGroupProvider>
-      <pre>{JSON.stringify(formGroup.controls, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(formGroup.controls, null, 2)}</pre> */}
     </div>
   );
 }

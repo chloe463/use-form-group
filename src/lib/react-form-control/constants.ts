@@ -10,7 +10,7 @@ export interface IFormGroupValue {
   validator?: Validator | Validator[];
 }
 
-export type FormGroupStatus = "VALID" | "INVALID" | undefined;
+export type FormGroupStatus = "VALID" | "INVALID" | null;
 export interface IFormGroup {
   status: FormGroupStatus;
   controls: {
