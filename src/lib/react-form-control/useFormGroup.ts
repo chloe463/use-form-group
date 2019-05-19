@@ -97,6 +97,7 @@ export function useFormGroup(formGroupOptions: GroupOptions): FormGroup {
 
   useEffect(() => {
     const errors: ValidatorErrors = {};
+    setStatus("VALID");
     Object.keys(values).forEach(key => {
       const validator = validators[key];
       if (!validator) {

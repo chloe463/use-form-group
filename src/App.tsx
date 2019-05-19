@@ -38,6 +38,7 @@ const App = () => {
   return (
     <div className="App">
       <button onClick={_e => formGroup.setValue(_dummy)} >formGroup.setValue()</button>
+      <button onClick={_e => alert("can submit!")} disabled={formGroup.status === "INVALID"}>dummy submit button</button>
       <FormGroupProvider formGroup={formGroup}>
         <form className="form">
           <div className="form__item">
