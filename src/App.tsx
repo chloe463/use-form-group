@@ -4,6 +4,7 @@ import './App.css';
 import {
   FormBuilder,
   FormGroup,
+  FormGroupProvider,
   FieldGroup,
   FieldControl,
   Validators,
@@ -18,6 +19,7 @@ interface State {
 }
 
 const App = () => {
+
   const formGroup = useFormGroup({
     // text: ["abc", Validators.required],
     text: ["abc", [Validators.required, Validators.maxLength(5)]],
@@ -25,120 +27,80 @@ const App = () => {
     checkbox: null,
     select: [1],
   });
+  // console.log(formGroup);
+  React.useEffect(() => {
+    console.log(formGroup);
+  }, [formGroup.controls]);
 
   return (
     <div className="App">
-      <span>{formGroup.status}</span>
-      <pre>{JSON.stringify(formGroup.errors())}</pre>
-      <FieldGroup formGroup={formGroup} render={() => {
-        return (
-          <form className="form">
-            <div className="form__item">
-              <div className="form__item-label">Text field</div>
-              <div className="form__item-field">
-                <FieldControl name="text" render={(props: any) => {
-                  return <input type="text" value={props.value} onChange={props.onChange} />;
+      <button onClick={_e => formGroup.setValue("text", "updated!")} >formGroup.setValue()</button>
+      <FormGroupProvider formGroup={formGroup}>
+        <form className="form">
+          <div className="form__item">
+            <div className="form__item-label">Text field</div>
+            <div className="form__item-field">
+              <FieldControl name="text">
+                {(props: any) => {
+                  const { control, setValue } = props;
+                  return (
+                    <>
+                      <input type="text" value={control.value} onChange={e => setValue(e.target.value)} />
+                      {control.touched && control.errors && JSON.stringify(control.errors)}
+                    </>
+                  );
                 }}
-                />
-              </div>
+              </FieldControl>
             </div>
-            <div className="form__item">
-              <div className="form__item-label">Radio buttons</div>
-              <div className="form__item-field">
-                <FieldControl name="radio" render={(props: any) => {
+          </div>
+          <div className="form__item">
+            <div className="form__item-label">Radio buttons</div>
+            <div className="form__item-field">
+              <FieldControl name="radio" >
+                {(props: any) => {
+                  const { control, setValue } = props;
                   return (
                     <>
                       <label htmlFor="radio1">
-                        <input id="radio1" type="radio" name="radio" value={1} onChange={props.onChange} checked={props.value == 1} />
+                        <input id="radio1" type="radio" name="radio" value={1} onChange={e => setValue(e.target.value)} checked={control.value == 1} />
                         <span>Radio1</span>
                       </label>
                       <label htmlFor="radio2">
-                        <input id="radio2" type="radio" name="radio" value={2} onChange={props.onChange} checked={props.value == 2} />
+                        <input id="radio2" type="radio" name="radio" value={2} onChange={e => setValue(e.target.value)} checked={control.value == 2} />
                         <span>Radio2</span>
                       </label>
                       <label htmlFor="radio3">
-                        <input id="radio3" type="radio" name="radio" value={3} onChange={props.onChange} checked={props.value == 3} />
+                        <input id="radio3" type="radio" name="radio" value={3} onChange={e => setValue(e.target.value)} checked={control.value == 3} />
                         <span>Radio3</span>
                       </label>
                     </>
                   );
-                }}>
-                </FieldControl>
-              </div>
+                }}
+              </FieldControl>
             </div>
-            <div className="form__item">
-              <div className="form__item-label">Selection</div>
-              <div className="form__item-field">
-              <FieldControl name="select" render={(props: any) => {
+          </div>
+          <div className="form__item">
+            <div className="form__item-label">Selection</div>
+            <div className="form__item-field">
+            <FieldControl name="select" >
+              {(props: any) => {
+                const { control, setValue } = props;
                 return (
                   <>
-                    <select name="select" onChange={props.onChange}>
+                    <select name="select" onChange={e => setValue(e.target.value)}>
                       <option value={1}>option1</option>
                       <option value={2}>option2</option>
                       <option value={3}>option3</option>
                     </select>
                   </>
                 );
-              }}>
-              </FieldControl>
-              </div>
+              }}
+            </FieldControl>
             </div>
-          </form>
-        );
-      }}>
-      </FieldGroup>
-      <form className="form">
-        <div className="form__item">
-          <div className="form__item-label">Text field</div>
-          <div className="form__item-field">
-            <input type="text" value={undefined} />
           </div>
-        </div>
-        <div className="form__item">
-          <div className="form__item-label">Radio buttons</div>
-          <div className="form__item-field">
-            <label htmlFor="radio1">
-              <input id="radio1" type="radio" name="radio" value={1} />
-              <span>Radio1</span>
-            </label>
-            <label htmlFor="radio2">
-              <input id="radio2" type="radio" name="radio" value={2} />
-              <span>Radio2</span>
-            </label>
-            <label htmlFor="radio3">
-              <input id="radio3" type="radio" name="radio" value={3} />
-              <span>Radio3</span>
-            </label>
-          </div>
-        </div>
-        <div className="form__item">
-          <div className="form__item-label">Checkboxes</div>
-          <div className="form__item-field">
-            <label htmlFor="checkbox1">
-              <input id="checkbox1" type="checkbox" name="checkbox" value={1} />
-              <span>Checkbox1</span>
-            </label>
-            <label htmlFor="checkbox2">
-              <input id="checkbox2" type="checkbox" name="checkbox" value={2} />
-              <span>Checkbox2</span>
-            </label>
-            <label htmlFor="checkbox3">
-              <input id="checkbox3" type="checkbox" name="checkbox" value={3} />
-              <span>Checkbox3</span>
-            </label>
-          </div>
-        </div>
-        <div className="form__item">
-          <div className="form__item-label">Selection</div>
-          <div className="form__item-field">
-            <select name="select">
-              <option value={1}>option1</option>
-              <option value={2}>option2</option>
-              <option value={3}>option3</option>
-            </select>
-          </div>
-        </div>
-      </form>
+        </form>
+      </FormGroupProvider>
+      <pre>{JSON.stringify(formGroup.controls, null, 2)}</pre>
     </div>
   );
 }

@@ -1,13 +1,11 @@
-export type ValidatorFn = (value: any) => ValidatorErrors | null;
-export type ValidatorPromiseFn = (value: any) => Promise<ValidatorErrors>;
-export type AsyncValidatorFn = (value: any) => Promise<ValidatorErrors>;
-export type Validator = ValidatorFn | AsyncValidatorFn;
+export type Validator = (value: any) => ValidatorErrors | null;
+export type AsyncValidator = (value: any) => Promise<ValidatorErrors>;
 export type ValidatorErrors = {
   [key: string]: any;
 } | null;
 
 export class Validators {
-  static required: ValidatorFn = (value: any) => {
+  static required: Validator = (value: any) => {
     if (value === null || value === undefined) {
       return { "required": true };
     }
@@ -17,24 +15,34 @@ export class Validators {
     return null;
   }
 
-  static maxLength = (length: number): ValidatorFn => (value: string) => {
+  static maxLength = (length: number): Validator  => (value: string) => {
     if (value.length > length) {
       return { "maxLength": { maxLength: length, actualLength: value.length } };
     }
     return null;
   }
 
-  static minLength = (length: number): ValidatorFn => (value: string) => {
+  static minLength = (length: number): Validator  => (value: string) => {
     if (value.length < length) {
       return { "minLength": { minLength: length, actualLength: value.length } };
     }
     return null;
   }
 
-  static format = (regexp: RegExp): ValidatorFn => (value: string) => {
+  static format = (regexp: RegExp): Validator  => (value: string) => {
     if (value.match(regexp)) {
       return { "format": true };
     }
     return null;
   }
+}
+
+export const mergeValidators = (validators: Validator | Validator[] | undefined) => {
+  if (!validators) {
+    return undefined;
+  }
+  if (!Array.isArray(validators)) {
+    return validators;
+  }
+  return (value: any) => validators.map(validator => validator(value));
 }

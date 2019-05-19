@@ -1,20 +1,32 @@
-import React, { useContext } from "react";
+import React, { useContext, useCallback } from "react";
 
 import { FieldContext } from "./FormGroupContext";
 import { FormControl } from "./FormControl";
-import { Field } from "./Field";
+
+export interface FieldControlChildrenProps {
+  control: FormControl<any>;
+  setValue: (value: any) => void;
+}
 
 interface FieldControlProps {
-  name?: string;
-  control?: FormControl<any>;
-  render: React.FC<any>;
-  onChange?: (e: React.SyntheticEvent<any>)  => void;
-  onFocus?: (e: React.SyntheticEvent<any>)  => void;
-  onBlur?: (e: React.SyntheticEvent<any>)  => void;
+  name: string;
+  children: React.FC<FieldControlChildrenProps>;
 }
 
 export const FieldControl: React.FC<FieldControlProps> = (props: FieldControlProps) => {
+  const { name, children } = props;
   const formGroup = useContext(FieldContext);
-  const control = formGroup!.getControl(props.name as string);
-  return <Field {...props} control={control} />
+  if (formGroup === null) {
+    throw new Error([
+      'Could not find "formGroup" in context.',
+      'Wrap the root component in a <FormGroupProvider>.'
+    ].join(' '));
+  }
+
+  const control  = formGroup.controls[name];
+  const setValue = useCallback((value: any) => formGroup.setValue(name, value), [name]);
+  return children({
+    control,
+    setValue,
+  });
 };

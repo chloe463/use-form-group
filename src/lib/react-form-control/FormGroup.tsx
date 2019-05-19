@@ -1,60 +1,54 @@
-import { useEffect } from "react";
-import { Validator } from "./Validators";
-import { useFormControl, FormControl } from "./FormControl";
+import { useEffect, useReducer, useCallback } from "react";
+import { Validator, AsyncValidator, ValidatorErrors } from "./Validators";
+import { FormControl, buildInitialFormControl } from "./FormControl";
+import {
+  FormGroupStatus,
+  IFormGroup,
+  UPDATE_VALUE,
+  UPDATE_ERROR,
+  updateValue,
+} from "./constants";
+import { reducer } from "./Reducer";
 
 type formValue = number | string | boolean | null;
-type FormGroupStatus = "VALID" | "INVALID" | undefined;
 
-export interface GroupOptions {
-  [key: string]: formValue | [formValue, Validator?] | [formValue, Validator[]];
+type FormValueSetterFn = (key: string, value: any) => void;
+export interface FormGroup {
+  status: FormGroupStatus;
+  controls: any;
+  setValue: FormValueSetterFn;
 }
 
-export class FormGroup {
-  public controls: { [key: string]: FormControl<any> } = {};
-  // public status: FormGroupStatus = undefined;
-  constructor(options?: GroupOptions) {
-  }
+export interface GroupOptions {
+  [key: string]:
+    formValue |
+    [formValue, Validator?] |
+    [formValue, Validator[]] |
+    [formValue, Validator, AsyncValidator?] |
+    [formValue, Validator, AsyncValidator[]];
+}
 
-  get status(): FormGroupStatus {
-    return this.errors().length > 0 ? "INVALID" : "VALID";
-  }
-
-  public setControl(key: string, control: FormControl<any>): void {
-    this.controls[key] = control;
-  }
-
-  public getControl(name: string): FormControl<any> {
-    return this.controls[name] || null;
-  }
-
-  public values() {
-    const values: { [key: string]: any } = {};
-    Object.keys(this.controls).forEach((key: string) => {
-      values[key] = this.controls[key].value;
-    });
-    return values;
-  }
-
-  public errors() {
-    return Object.values(this.controls).map((control: FormControl<any>) => {
-      return control.errors && control.errors.length ? control.errors : null;
-    }).filter(Boolean).flat();
-  }
+function initFormGroupValues(options: GroupOptions) {
+  const controls: { [key: string]: FormControl<any> } = {};
+  Object.keys(options).forEach(key => {
+    const option = options[key];
+    if (Array.isArray(option)) {
+      const [value, validator, asyncValidator] = option;
+      controls[key] = buildInitialFormControl(value, validator, asyncValidator);
+    } else {
+      const value = option;
+      controls[key] = buildInitialFormControl(value);
+    }
+  });
+  return { controls, status: undefined };
 }
 
 export function useFormGroup(formGroupOptions: GroupOptions): FormGroup {
-  const formGroup = new FormGroup({});
-  Object.keys(formGroupOptions).forEach(key => {
-    const option = formGroupOptions[key];
-    let formControl = null;
-    if (Array.isArray(option)) {
-      const [value, validator] = option;
-      formControl = useFormControl(value, validator);
-    } else {
-      const value = option;
-      formControl = useFormControl(value);
-    }
-    formGroup.setControl(key, formControl);
-  });
-  return formGroup;
+  const [formGroup, dispatch] = useReducer(reducer, formGroupOptions, initFormGroupValues);
+  const setValue: FormValueSetterFn = useCallback((key: string, value: any) => dispatch(updateValue(key, value)), []);
+  return {
+    status: formGroup.status,
+    controls: formGroup.controls,
+    setValue,
+  };
 }
