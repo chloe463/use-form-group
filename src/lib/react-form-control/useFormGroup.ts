@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { Validator, AsyncValidator, ValidatorErrors } from "./Validators";
 import { FormGroupStatus } from "./constants";
 
@@ -77,6 +77,10 @@ export function useFormGroup(formGroupOptions: GroupOptions): FormGroup {
   const [errors, setErrors] = useState<ValidatorErrors>({});
   const [status, setStatus] = useState<null | FormGroupStatus>(null);
 
+  const { validators, asyncValidators } = useMemo(() => {
+    return initValidators(formGroupOptions)
+  }, [formGroupOptions]);
+
   const setValue = useCallback((keysAndValues: Record<string, any>) => {
     const updatedValues: Record<string, any> = { ...values };
     const updatedMeta: Record<string, any> = { ...metaInfos };
@@ -93,7 +97,6 @@ export function useFormGroup(formGroupOptions: GroupOptions): FormGroup {
     setMetaInfo(updatedMeta);
   }, [values]);
 
-  const { validators, asyncValidators } = initValidators(formGroupOptions);
 
   useEffect(() => {
     const errors: ValidatorErrors = {};
