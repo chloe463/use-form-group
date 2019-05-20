@@ -45,7 +45,6 @@ function initValues(options: GroupOptions) {
 function initMeta(options: GroupOptions) {
   const meta: Record<string, any> = {};
   Object.keys(options).forEach((key: string) => {
-    const option = options[key];
     meta[key] = {
       pristine: true,
       dirty: false,
@@ -76,8 +75,8 @@ export function useFormGroup(formGroupOptions: GroupOptions): FormGroup {
   const [errors, setErrors] = useState<ValidatorErrors>({});
   const [status, setStatus] = useState<null | FormGroupStatus>(null);
 
-  const { validators, asyncValidators } = useMemo(() => {
-    return initValidators(formGroupOptions)
+  const { validators } = useMemo(() => {
+    return initValidators(formGroupOptions);
   }, [formGroupOptions]);
 
   const setValue = useCallback((keysAndValues: Record<string, any>) => {
@@ -90,11 +89,11 @@ export function useFormGroup(formGroupOptions: GroupOptions): FormGroup {
         dirty: true,
         touched: true,
         untouched: false,
-      }
+      };
     });
     setValues(updatedValues);
     setMetaInfo(updatedMeta);
-  }, [values]);
+  }, [metaInfos, values]);
 
 
   useEffect(() => {
@@ -114,7 +113,7 @@ export function useFormGroup(formGroupOptions: GroupOptions): FormGroup {
       }
     });
     setErrors(errors);
-  }, [values]);
+  }, [validators, values]);
 
   return {
     status,

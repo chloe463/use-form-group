@@ -1,6 +1,6 @@
 import { Validator, ValidatorErrors } from "./Validators";
 
-export interface IFormGroupValue {
+export interface FormGroupValue {
   value: any;
   pristine: boolean;
   dirty: boolean;
