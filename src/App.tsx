@@ -5,7 +5,7 @@ import {
   FormGroupProvider,
   FieldControl,
   Validators,
-  useFormGroup
+  useFormGroup,
 } from  "./lib/react-form-control";
 
 interface State {
@@ -30,6 +30,7 @@ const App = () => {
     select: [1],
   });
   React.useEffect(() => {
+    // eslint-disable-next-line
     console.log(formGroup.values);
   }, [formGroup.values]);
   // console.log(formGroup.values);
@@ -39,7 +40,7 @@ const App = () => {
     radio: "2",
     checkbox: ["val1"],
     select: "3",
-  }
+  };
 
   return (
     <div className="App">
@@ -72,14 +73,17 @@ const App = () => {
                   return (
                     <>
                       <label htmlFor="radio1">
+                        {/* eslint-disable-next-line */}
                         <input id="radio1" type="radio" name="radio" value={1} onChange={e => setValue(e.target.value)} checked={value == 1} />
                         <span>Radio1</span>
                       </label>
                       <label htmlFor="radio2">
+                        {/* eslint-disable-next-line */}
                         <input id="radio2" type="radio" name="radio" value={2} onChange={e => setValue(e.target.value)} checked={value == 2} />
                         <span>Radio2</span>
                       </label>
                       <label htmlFor="radio3">
+                        {/* eslint-disable-next-line */}
                         <input id="radio3" type="radio" name="radio" value={3} onChange={e => setValue(e.target.value)} checked={value == 3} />
                         <span>Radio3</span>
                       </label>
@@ -92,12 +96,12 @@ const App = () => {
           <div className="form__item">
             <div className="form__item-label">Checkboxes</div>
             <div className="form__item-field">
-            <FieldControl name="checkbox" >
-              {(props: any) => {
+              <FieldControl name="checkbox" >
+                {(props: any) => {
                 const { value: currentValue, setValue } = props;
                 return (
                   <>
-                  {checkboxes.map(checkbox => {
+                    {checkboxes.map(checkbox => {
                     const checked = !!(currentValue.find((v: any) => v === checkbox.value));
                     return (
                       <label key={checkbox.value}>
@@ -116,19 +120,19 @@ const App = () => {
                         />
                         {checkbox.value}
                       </label>
-                    )
+                    );
                   })}
                   </>
                 );
               }}
-            </FieldControl>
+              </FieldControl>
             </div>
           </div>
           <div className="form__item">
             <div className="form__item-label">Selection</div>
             <div className="form__item-field">
-            <FieldControl name="select" >
-              {(props: any) => {
+              <FieldControl name="select" >
+                {(props: any) => {
                 const { value, setValue } = props;
                 return (
                   <>
@@ -140,7 +144,7 @@ const App = () => {
                   </>
                 );
               }}
-            </FieldControl>
+              </FieldControl>
             </div>
           </div>
         </form>
@@ -148,6 +152,6 @@ const App = () => {
       {/* <pre>{JSON.stringify(formGroup.controls, null, 2)}</pre> */}
     </div>
   );
-}
+};
 
 export default App;

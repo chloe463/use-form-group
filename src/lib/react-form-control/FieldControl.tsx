@@ -24,7 +24,7 @@ export const FieldControl: React.FC<FieldControlProps> = (props: FieldControlPro
   if (formGroup === null) {
     throw new Error([
       'Could not find "formGroup" in context.',
-      'Wrap the root component in a <FormGroupProvider>.'
+      'Wrap the root component in a <FormGroupProvider>.',
     ].join(' '));
   }
 

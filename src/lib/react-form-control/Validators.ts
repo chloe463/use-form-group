@@ -5,33 +5,33 @@ export type ValidatorErrors = {
 } | null;
 
 export class Validators {
-  static required: Validator = (value: any) => {
+  public static required: Validator = (value: any) => {
     if (value === null || value === undefined) {
-      return { "required": true };
+      return { required: true };
     }
     if (typeof value === "string" && value === "") {
-      return { "required": true };
+      return { required: true };
     }
     return null;
   }
 
-  static maxLength = (length: number): Validator  => (value: string) => {
+  public static maxLength = (length: number): Validator  => (value: string) => {
     if (value.length > length) {
-      return { "maxLength": { maxLength: length, actualLength: value.length } };
+      return { maxLength: { maxLength: length, actualLength: value.length } };
     }
     return null;
   }
 
-  static minLength = (length: number): Validator  => (value: string) => {
+  public static minLength = (length: number): Validator  => (value: string) => {
     if (value.length < length) {
-      return { "minLength": { minLength: length, actualLength: value.length } };
+      return { minLength: { minLength: length, actualLength: value.length } };
     }
     return null;
   }
 
-  static format = (regexp: RegExp): Validator  => (value: string) => {
+  public static format = (regexp: RegExp): Validator  => (value: string) => {
     if (value.match(regexp)) {
-      return { "format": true };
+      return { format: true };
     }
     return null;
   }
@@ -45,4 +45,4 @@ export const mergeValidators = (validators: Validator | Validator[] | undefined)
     return validators;
   }
   return (value: any) => validators.map(validator => validator(value));
-}
+};
