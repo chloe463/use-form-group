@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { Validator, AsyncValidator, ValidatorErrors } from "./Validators";
 import { FormGroupStatus } from "./constants";
 
@@ -24,7 +24,9 @@ export interface GroupOptions {
     [formValue, Validator?] |
     [formValue, Validator[]] |
     [formValue, Validator, AsyncValidator?] |
-    [formValue, Validator, AsyncValidator[]];
+    [formValue, Validator[], AsyncValidator?] |
+    [formValue, Validator, AsyncValidator[]] |
+    [formValue, Validator[], AsyncValidator[]];
 }
 
 function initValues(options: GroupOptions) {
@@ -82,6 +84,9 @@ export function useFormGroup(formGroupOptions: GroupOptions): FormGroup {
   const setValue = useCallback((keysAndValues: Record<string, any>) => {
     const updatedValues: Record<string, any> = { ...values };
     const updatedMeta: Record<string, any> = { ...metaInfos };
+
+    const newErrors: ValidatorErrors = { ...errors };
+    setStatus("VALID");
     Object.keys(keysAndValues).forEach(key => {
       updatedValues[key] = keysAndValues[key];
       updatedMeta[key] = {
@@ -90,30 +95,25 @@ export function useFormGroup(formGroupOptions: GroupOptions): FormGroup {
         touched: true,
         untouched: false,
       };
-    });
-    setValues(updatedValues);
-    setMetaInfo(updatedMeta);
-  }, [metaInfos, values]);
 
-
-  useEffect(() => {
-    const errors: ValidatorErrors = {};
-    setStatus("VALID");
-    Object.keys(values).forEach(key => {
       const validator = validators[key];
       if (!validator) {
         return;
       }
-      const value = values[key];
-      errors[key] = Array.isArray(validator) ?
+      const value = updatedValues[key];
+      newErrors[key] = Array.isArray(validator) ?
         validator.map(fn => fn(value)).filter(Boolean) :
         validator(value);
-      if (errors[key].length > 0) {
+    });
+    setValues(updatedValues);
+    setMetaInfo(updatedMeta);
+    setErrors(newErrors);
+    Object.values(newErrors).forEach(e => {
+      if (e.length > 0) {
         setStatus("INVALID");
       }
     });
-    setErrors(errors);
-  }, [validators, values]);
+  }, [metaInfos, values, errors, validators]);
 
   return {
     status,

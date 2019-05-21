@@ -29,6 +29,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "frolint": "^0.5.2"
+    "frolint": "^0.5.2",
+    "stop-runaway-react-effects": "^1.2.0"
   }
 }
