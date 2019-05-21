@@ -31,7 +31,7 @@ export class Validators {
   }
 
   public static format = (regexp: RegExp): Validator  => (value: string) => {
-    if (value.match(regexp)) {
+    if (!value.match(regexp)) {
       return { format: true };
     }
     return null;
