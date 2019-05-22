@@ -40,10 +40,13 @@ export class Validators {
 
 export const mergeValidators = (validators: Validator | Validator[] | undefined) => {
   if (!validators) {
-    return undefined;
+    return (_value: any) => null;
   }
   if (!Array.isArray(validators)) {
     return validators;
   }
-  return (value: any) => validators.map(validator => validator(value));
+  return (value: any) => validators.reduce((acc, validator) => {
+    const error = validator(value);
+    return { ...acc, ...error };
+  }, {});
 };

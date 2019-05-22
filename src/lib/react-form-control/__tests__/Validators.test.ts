@@ -1,4 +1,4 @@
-import { Validators } from "../Validators";
+import { Validators, Validator, mergeValidators } from "../Validators";
 
 describe("Validators", () => {
   describe("Validators.required", () => {
@@ -53,6 +53,39 @@ describe("Validators", () => {
     it("returns error object if given string is not match to regexp", () => {
       const validator = Validators.format(/abc/);
       expect(validator("xyz")).toEqual({ format: true });
+    });
+  });
+
+  describe("mergeValidators", () => {
+    it("returns noop function if undefined is given", () => {
+      const noop = mergeValidators(undefined);
+      expect(noop).toBeInstanceOf(Function);
+      expect(noop("abc")).toBeNull();
+    });
+
+    it("returns a validator if single validator is given", () => {
+      const validator: Validator = (_value: any) => {
+        return null;
+      };
+      const merged = mergeValidators(validator);
+      const errors = merged(null);
+      expect(errors).toBeNull();
+    });
+
+    it("can merge some validator functions", () => {
+      const validator1: Validator = (_value: any) => {
+        return null;
+      };
+      const validator2: Validator = (_value: any) => {
+        return { foo: "foo" };
+      };
+      const validator3: Validator = (_value: any) => {
+        return { bar: "bar" };
+      };
+
+      const merged = mergeValidators([validator1, validator2, validator3]);
+      const errors = merged(null);
+      expect(errors).toEqual({ foo: "foo", bar: "bar" });
     });
   });
 });
