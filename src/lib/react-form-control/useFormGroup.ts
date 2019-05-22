@@ -82,10 +82,9 @@ export function useFormGroup(formGroupOptions: GroupOptions): FormGroup {
   }, [formGroupOptions]);
 
   const setValue = useCallback((keysAndValues: Record<string, any>) => {
-    const updatedValues: Record<string, any> = { ...values };
-    const updatedMeta: Record<string, any> = { ...metaInfos };
-
-    const newErrors: ValidatorErrors = { ...errors };
+    const updatedValues: Record<string, any> = {};
+    const updatedMeta: Record<string, any> = {};
+    const newErrors: ValidatorErrors = {};
     setStatus("VALID");
     Object.keys(keysAndValues).forEach(key => {
       updatedValues[key] = keysAndValues[key];
@@ -105,15 +104,15 @@ export function useFormGroup(formGroupOptions: GroupOptions): FormGroup {
         validator.map(fn => fn(value)).filter(Boolean) :
         validator(value);
     });
-    setValues(updatedValues);
-    setMetaInfo(updatedMeta);
-    setErrors(newErrors);
+    setValues(currentValues => ({ ...currentValues, ...updatedValues }));
+    setMetaInfo(currentMetas => ({ ...currentMetas, ...updatedMeta }));
+    setErrors(currentErrors => ({ ...currentErrors, ...newErrors }));
     Object.values(newErrors).forEach(e => {
-      if (e.length > 0) {
+      if (e !== null && e.length > 0) {
         setStatus("INVALID");
       }
     });
-  }, [metaInfos, values, errors, validators]);
+  }, [validators]);
 
   return {
     status,
