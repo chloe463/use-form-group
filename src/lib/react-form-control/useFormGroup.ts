@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { Validator, AsyncValidator, ValidatorErrors, mergeValidators } from "./Validators";
 import { FormGroupStatus } from "./constants";
 
@@ -58,7 +58,7 @@ function initMeta(options: GroupOptions) {
 }
 
 function initValidators(options: GroupOptions) {
-  const validators: { [key: string]: Validator | Validator[] | undefined } = {};
+  const validators: { [key: string]: Validator } = {};
   const asyncValidators: { [key: string]: AsyncValidator | AsyncValidator[] | undefined } = {};
   Object.keys(options).forEach(key => {
     const option = options[key];
@@ -96,23 +96,24 @@ export function useFormGroup(formGroupOptions: GroupOptions): FormGroup {
       };
 
       const validator = validators[key];
-      if (!validator) {
-        return;
-      }
-      const value = updatedValues[key];
-      newErrors[key] = Array.isArray(validator) ?
-        validator.map(fn => fn(value)).filter(Boolean) :
-        validator(value);
+      newErrors[key] = validator(updatedValues[key]);
     });
     setValues(currentValues => ({ ...currentValues, ...updatedValues }));
     setMetaInfo(currentMetas => ({ ...currentMetas, ...updatedMeta }));
     setErrors(currentErrors => ({ ...currentErrors, ...newErrors }));
-    Object.values(newErrors).forEach(e => {
-      if (e !== null && e.length > 0) {
+  }, [validators]);
+
+  useEffect(() => {
+    if (!errors) {
+      setStatus("VALID");
+      return;
+    }
+    Object.values(errors).forEach(e => {
+      if (e !== null && Object.keys(e).length > 0) {
         setStatus("INVALID");
       }
     });
-  }, [validators]);
+  }, [errors]);
 
   return {
     status,
