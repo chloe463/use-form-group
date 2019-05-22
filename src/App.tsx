@@ -24,9 +24,9 @@ const App = () => {
 
   const formGroup = useFormGroup({
     // text: ["abc", Validators.required],
-    text: ["abc", [Validators.required, Validators.maxLength(5)]],
+    text: ["abcd", [Validators.required, Validators.maxLength(5)]],
     radio: [1],
-    checkbox: [checkboxes.filter(c => c.checked).map(c => c.value)],
+    checkbox: [checkboxes.filter(c => c.checked).map(c => c.value), Validators.required],
     select: [1],
   });
   React.useEffect(() => {
@@ -98,30 +98,31 @@ const App = () => {
             <div className="form__item-field">
               <FieldControl name="checkbox" >
                 {(props: any) => {
-                const { value: currentValue, setValue } = props;
+                const { value: currentValue, setValue, errors } = props;
                 return (
                   <>
                     {checkboxes.map(checkbox => {
-                    const checked = !!(currentValue.find((v: any) => v === checkbox.value));
-                    return (
-                      <label key={checkbox.value}>
-                        <input
-                          type="checkbox"
-                          value={checkbox.value}
-                          checked={checked}
-                          onChange={e => {
-                            const { value, checked } = e.target;
-                            if (checked) {
-                              setValue([ ...currentValue, value ]);
-                            } else {
-                              setValue([ ...currentValue.filter((v: any) => v !== value ) ]);
-                            }
-                          }}
-                        />
-                        {checkbox.value}
-                      </label>
-                    );
-                  })}
+                      const checked = !!(currentValue.find((v: any) => v === checkbox.value));
+                      return (
+                        <label key={checkbox.value}>
+                          <input
+                            type="checkbox"
+                            value={checkbox.value}
+                            checked={checked}
+                            onChange={e => {
+                              const { value, checked } = e.target;
+                              if (checked) {
+                                setValue([ ...currentValue, value ]);
+                              } else {
+                                setValue([ ...currentValue.filter((v: any) => v !== value ) ]);
+                              }
+                            }}
+                          />
+                          {checkbox.value}
+                        </label>
+                      );
+                    })}
+                    {errors ? JSON.stringify(errors) : null}
                   </>
                 );
               }}

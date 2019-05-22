@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
-import { Validator, AsyncValidator, ValidatorErrors } from "./Validators";
+import { Validator, AsyncValidator, ValidatorErrors, mergeValidators } from "./Validators";
 import { FormGroupStatus } from "./constants";
 
 type formValue = number | string | boolean | number[] | string[] | boolean[] | null;
@@ -64,7 +64,7 @@ function initValidators(options: GroupOptions) {
     const option = options[key];
     if (Array.isArray(option)) {
       const [_value, validator, asyncValidator] = option;
-      validators[key] = validator;
+      validators[key] = mergeValidators(validator);
       asyncValidators[key] = asyncValidator;
     }
   });
