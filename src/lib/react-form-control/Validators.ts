@@ -16,6 +16,20 @@ export class Validators {
     return null;
   }
 
+  public static min = (min: number): Validator  => (value: number) => {
+    if (value < min) {
+      return { min: { min, actualValue: value } };
+    }
+    return null;
+  }
+
+  public static max = (max: number): Validator  => (value: number) => {
+    if (value > max) {
+      return { max: { max, actualValue: value } };
+    }
+    return null;
+  }
+
   public static maxLength = (length: number): Validator  => (value: string) => {
     if (value.length > length) {
       return { maxLength: { maxLength: length, actualLength: value.length } };
@@ -31,7 +45,7 @@ export class Validators {
   }
 
   public static format = (regexp: RegExp): Validator  => (value: string) => {
-    if (value.match(regexp)) {
+    if (!value.match(regexp)) {
       return { format: true };
     }
     return null;
@@ -40,10 +54,13 @@ export class Validators {
 
 export const mergeValidators = (validators: Validator | Validator[] | undefined) => {
   if (!validators) {
-    return undefined;
+    return (_value: any) => null;
   }
   if (!Array.isArray(validators)) {
     return validators;
   }
-  return (value: any) => validators.map(validator => validator(value));
+  return (value: any) => validators.reduce((acc, validator) => {
+    const error = validator(value);
+    return { ...acc, ...error };
+  }, {});
 };
