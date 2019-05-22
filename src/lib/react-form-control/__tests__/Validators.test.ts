@@ -111,5 +111,18 @@ describe("Validators", () => {
       const errors = merged(null);
       expect(errors).toEqual({ foo: "foo", bar: "bar" });
     });
+
+    it("can merge some validator functions and merged function return null if all validator returns null", () => {
+      const validator1: Validator = (_value: any) => {
+        return null;
+      };
+      const validator2: Validator = (_value: any) => {
+        return null;
+      };
+
+      const merged = mergeValidators([validator1, validator2]);
+      const errors = merged(null);
+      expect(errors).toBeNull();
+    });
   });
 });

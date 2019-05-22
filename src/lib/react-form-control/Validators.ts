@@ -62,8 +62,11 @@ export const mergeValidators = (validators: Validator | Validator[] | undefined)
   if (!Array.isArray(validators)) {
     return validators;
   }
-  return (value: any) => validators.reduce((acc, validator) => {
-    const error = validator(value);
-    return { ...acc, ...error };
-  }, {});
+  return (value: any) => {
+    const errors = validators.reduce((acc, validator) => {
+      const error = validator(value);
+      return { ...acc, ...error };
+    }, {});
+    return Object.keys(errors).length === 0 ? null : errors;
+  };
 };
