@@ -16,6 +16,20 @@ export class Validators {
     return null;
   }
 
+  public static min = (min: number): Validator  => (value: number) => {
+    if (value < min) {
+      return { min: { min, actualValue: value } };
+    }
+    return null;
+  }
+
+  public static max = (max: number): Validator  => (value: number) => {
+    if (value > max) {
+      return { max: { max, actualValue: value } };
+    }
+    return null;
+  }
+
   public static maxLength = (length: number): Validator  => (value: string) => {
     if (value.length > length) {
       return { maxLength: { maxLength: length, actualLength: value.length } };
