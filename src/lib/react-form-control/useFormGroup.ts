@@ -71,11 +71,23 @@ function initValidators(options: GroupOptions) {
   return { validators, asyncValidators };
 }
 
-export function useFormGroup(formGroupOptions: GroupOptions): FormGroup {
+export function useFormGroup(
+  formGroupOptions: GroupOptions,
+  lazyInit?: () => Promise<any>
+): FormGroup {
   const [values, setValues] = useState<Record<string, any>>(initValues(formGroupOptions));
   const [metaInfos, setMetaInfo] = useState<Record<string, Meta>>(initMeta(formGroupOptions));
   const [errors, setErrors] = useState<ValidatorErrors>({});
   const [status, setStatus] = useState<null | FormGroupStatus>(null);
+
+  useEffect(() => {
+    if (lazyInit) {
+      lazyInit().then(values => {
+        setValues(values);
+      });
+    }
+  // eslint-disable-next-line
+  }, []);
 
   const { validators } = useMemo(() => {
     return initValidators(formGroupOptions);

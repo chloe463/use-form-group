@@ -15,6 +15,19 @@ interface State {
   select: number;
 }
 
+const lazyInit = () => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve({
+        text: "lazy init!!!",
+        radio: "3",
+        checkbox: ["val2"],
+        select: "2",
+      });
+    }, 1500);
+  });
+};
+
 const App = () => {
   const checkboxes = [
     { value: "val1", checked: false },
@@ -28,7 +41,7 @@ const App = () => {
     radio: [1],
     checkbox: [checkboxes.filter(c => c.checked).map(c => c.value), Validators.required],
     select: [1],
-  });
+  }, lazyInit);
   React.useEffect(() => {
     // eslint-disable-next-line
     console.log(formGroup.values);
