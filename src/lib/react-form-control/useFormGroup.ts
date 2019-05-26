@@ -1,8 +1,17 @@
 import { useState, useCallback, useMemo, useEffect } from "react";
-import { Validator, AsyncValidator, ValidatorErrors, mergeValidators } from "./Validators";
+import { Validator, ValidatorErrors, mergeValidators } from "./Validators";
 import { FormGroupStatus } from "./constants";
 
-type formValue = number | string | boolean | number[] | string[] | boolean[] | null;
+type ValidatorsOption<T> = {
+  [key in keyof T]?: Validator | Validator[];
+};
+
+export interface FormGroupOptions<T extends Record<string, any>>{
+  values: T;
+  validators: ValidatorsOption<T>;
+  lazyInit: () => Promise<T>
+}
+
 export interface Meta {
   pristine: boolean;
   dirty: boolean;
@@ -11,6 +20,7 @@ export interface Meta {
 }
 
 type FormValueSetterFn = (keysAndValues: Record<string, any>) => void;
+
 export interface FormGroup {
   status: FormGroupStatus;
   metaInfos: Record<string, Meta>;
@@ -19,34 +29,9 @@ export interface FormGroup {
   errors: ValidatorErrors;
 }
 
-export interface GroupOptions {
-  [key: string]:
-    [formValue, Validator?] |
-    [formValue, Validator[]] |
-    [formValue, Validator, AsyncValidator?] |
-    [formValue, Validator[], AsyncValidator?] |
-    [formValue, Validator, AsyncValidator[]] |
-    [formValue, Validator[], AsyncValidator[]];
-}
-
-function initValues(options: GroupOptions) {
-  const values: Record<string, any> = {};
-  Object.keys(options).forEach((key: string) => {
-    const option = options[key];
-    if (Array.isArray(option)) {
-      const [value, _validator, _asyncValidator] = option;
-      values[key] = value;
-    } else {
-      const value = option;
-      values[key] = value;
-    }
-  });
-  return values;
-}
-
-function initMeta(options: GroupOptions) {
+function initMeta<T>(values: T) {
   const meta: Record<string, any> = {};
-  Object.keys(options).forEach((key: string) => {
+  Object.keys(values).forEach((key: string) => {
     meta[key] = {
       pristine: true,
       dirty: false,
@@ -57,47 +42,38 @@ function initMeta(options: GroupOptions) {
   return meta;
 }
 
-function initValidators(options: GroupOptions) {
-  const validators: { [key: string]: Validator } = {};
-  const asyncValidators: { [key: string]: AsyncValidator | AsyncValidator[] | undefined } = {};
-  Object.keys(options).forEach(key => {
-    const option = options[key];
-    if (Array.isArray(option)) {
-      const [_value, validator, asyncValidator] = option;
-      validators[key] = mergeValidators(validator);
-      asyncValidators[key] = asyncValidator;
-    }
+function initValidators<T>(validators: FormGroupOptions<T>["validators"]) {
+  const mergedValidators: { [key: string]: Validator } = {};
+  Object.keys(validators).forEach(key => {
+    const validator = (validators as any)[key];
+    mergedValidators[key] = mergeValidators(validator);
   });
-  return { validators, asyncValidators };
+  return { validators: mergedValidators };
 }
 
-export function useFormGroup(
-  formGroupOptions: GroupOptions,
-  lazyInit?: () => Promise<any>
-): FormGroup {
-  const [values, setValues] = useState<Record<string, any>>(initValues(formGroupOptions));
-  const [metaInfos, setMetaInfo] = useState<Record<string, Meta>>(initMeta(formGroupOptions));
+export function useFormGroup<T>(formGroupOptions: FormGroupOptions<T>): FormGroup {
+  const [values, setValues] = useState<Record<string, any>>(formGroupOptions.values);
+  const [metaInfos, setMetaInfo] = useState<Record<string, Meta>>(initMeta(formGroupOptions.values));
   const [errors, setErrors] = useState<ValidatorErrors>({});
   const [status, setStatus] = useState<null | FormGroupStatus>(null);
 
   useEffect(() => {
+    const { lazyInit } = formGroupOptions;
     if (lazyInit) {
-      lazyInit().then(values => {
-        setValues(values);
-      });
+      lazyInit().then(values => setValues(currentValues =>  ({ ...currentValues, ...values })));
     }
+  // NOTE: Call lazeInit only once on mount.
   // eslint-disable-next-line
   }, []);
 
   const { validators } = useMemo(() => {
-    return initValidators(formGroupOptions);
+    return initValidators(formGroupOptions.validators);
   }, [formGroupOptions]);
 
   const setValue = useCallback((keysAndValues: Record<string, any>) => {
     const updatedValues: Record<string, any> = {};
     const updatedMeta: Record<string, any> = {};
     const newErrors: ValidatorErrors = {};
-    setStatus("VALID");
     Object.keys(keysAndValues).forEach(key => {
       updatedValues[key] = keysAndValues[key];
       updatedMeta[key] = {
@@ -108,7 +84,9 @@ export function useFormGroup(
       };
 
       const validator = validators[key];
-      newErrors[key] = validator(updatedValues[key]);
+      if (validator) {
+        newErrors[key] = validator(updatedValues[key]);
+      }
     });
     setValues(currentValues => ({ ...currentValues, ...updatedValues }));
     setMetaInfo(currentMetas => ({ ...currentMetas, ...updatedMeta }));

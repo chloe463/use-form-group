@@ -10,13 +10,13 @@ import {
 
 interface State {
   text: string;
-  radio: number;
-  checkbox: boolean[];
-  select: number;
+  radio: string;
+  checkbox: string[];
+  select: string;
 }
 
 const lazyInit = () => {
-  return new Promise(resolve => {
+  return new Promise<State>(resolve => {
     setTimeout(() => {
       resolve({
         text: "lazy init!!!",
@@ -35,13 +35,23 @@ const App = () => {
     { value: "val3", checked: false },
   ];
 
-  const formGroup = useFormGroup({
-    // text: ["abc", Validators.required],
-    text: ["abcd", [Validators.required, Validators.maxLength(5)]],
-    radio: [1],
-    checkbox: [checkboxes.filter(c => c.checked).map(c => c.value), Validators.required],
-    select: [1],
-  }, lazyInit);
+  const formGroupOptions = {
+    values: {
+      text: "abcd",
+      radio: "1",
+      checkbox: checkboxes.filter(c => c.checked).map(c => c.value),
+      select: "1",
+    },
+    validators: {
+      text: [Validators.required, Validators.maxLength(5)],
+      checkbox: Validators.required,
+    },
+    lazyInit,
+  };
+
+  const formGroup = useFormGroup<State>(formGroupOptions);
+
+
   React.useEffect(() => {
     // eslint-disable-next-line
     console.log(formGroup.values);
