@@ -60,7 +60,17 @@ export function useFormGroup<T>(formGroupOptions: FormGroupOptions<T>): FormGrou
   useEffect(() => {
     const { lazyInit } = formGroupOptions;
     if (lazyInit) {
-      lazyInit().then(values => setValues(currentValues =>  ({ ...currentValues, ...values })));
+      lazyInit().then(values => {
+        const newErrors: ValidatorErrors = {};
+        Object.keys(values).forEach(key => {
+          const validator = validators[key];
+          if (validator) {
+            newErrors[key] = validator((values as Record<string, any>)[key]);
+          }
+        });
+        setValues(currentValues =>  ({ ...currentValues, ...values }));
+        setErrors(currentErrors => ({ ...currentErrors, ...newErrors }));
+      });
     }
   // NOTE: Call lazeInit only once on mount.
   // eslint-disable-next-line
