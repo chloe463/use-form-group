@@ -1,12 +1,7 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import "./App.css";
 
-import {
-  FormGroupProvider,
-  FieldControl,
-  Validators,
-  useFormGroup,
-} from  "./lib/react-form-control";
+import { FormGroupProvider, FieldControl, Validators, useFormGroup } from "./lib/react-form-control";
 
 interface State {
   text: string;
@@ -51,7 +46,6 @@ const App = () => {
 
   const formGroup = useFormGroup<State>(formGroupOptions);
 
-
   React.useEffect(() => {
     // eslint-disable-next-line
     console.log(formGroup.values);
@@ -67,8 +61,10 @@ const App = () => {
 
   return (
     <div className="App">
-      <button onClick={_e => formGroup.setValue(_dummy)} >formGroup.setValue()</button>
-      <button onClick={_e => alert("can submit!")} disabled={formGroup.status === "INVALID"}>dummy submit button</button>
+      <button onClick={_e => formGroup.setValue(_dummy)}>formGroup.setValue()</button>
+      <button onClick={_e => alert("can submit!")} disabled={formGroup.status === "INVALID"}>
+        dummy submit button
+      </button>
       <FormGroupProvider formGroup={formGroup}>
         <form className="form">
           <div className="form__item">
@@ -90,24 +86,43 @@ const App = () => {
           <div className="form__item">
             <div className="form__item-label">Radio buttons</div>
             <div className="form__item-field">
-              <FieldControl name="radio" >
+              <FieldControl name="radio">
                 {(props: any) => {
                   const { value, setValue } = props;
                   return (
                     <>
                       <label htmlFor="radio1">
-                        {/* eslint-disable-next-line */}
-                        <input id="radio1" type="radio" name="radio" value={1} onChange={e => setValue(e.target.value)} checked={value == 1} />
+                        <input
+                          id="radio1"
+                          type="radio"
+                          name="radio"
+                          value={1}
+                          onChange={e => setValue(e.target.value)}
+                          checked={value == 1 /* eslint-disable-line */}
+                        />
                         <span>Radio1</span>
                       </label>
                       <label htmlFor="radio2">
-                        {/* eslint-disable-next-line */}
-                        <input id="radio2" type="radio" name="radio" value={2} onChange={e => setValue(e.target.value)} checked={value == 2} />
+                        <input
+                          id="radio2"
+                          type="radio"
+                          name="radio"
+                          value={2}
+                          onChange={e => setValue(e.target.value)}
+                          checked={value == 2 /* eslint-disable-line */}
+                        />
                         <span>Radio2</span>
                       </label>
                       <label htmlFor="radio3">
                         {/* eslint-disable-next-line */}
-                        <input id="radio3" type="radio" name="radio" value={3} onChange={e => setValue(e.target.value)} checked={value == 3} />
+                        <input
+                          id="radio3"
+                          type="radio"
+                          name="radio"
+                          value={3}
+                          onChange={e => setValue(e.target.value)}
+                          checked={value == 3 /* eslint-disable-line */}
+                        />
                         <span>Radio3</span>
                       </label>
                     </>
@@ -119,55 +134,55 @@ const App = () => {
           <div className="form__item">
             <div className="form__item-label">Checkboxes</div>
             <div className="form__item-field">
-              <FieldControl name="checkbox" >
+              <FieldControl name="checkbox">
                 {(props: any) => {
-                const { value: currentValue, setValue, errors } = props;
-                return (
-                  <>
-                    {checkboxes.map(checkbox => {
-                      const checked = !!(currentValue.find((v: any) => v === checkbox.value));
-                      return (
-                        <label key={checkbox.value}>
-                          <input
-                            type="checkbox"
-                            value={checkbox.value}
-                            checked={checked}
-                            onChange={e => {
-                              const { value, checked } = e.target;
-                              if (checked) {
-                                setValue([ ...currentValue, value ]);
-                              } else {
-                                setValue([ ...currentValue.filter((v: any) => v !== value ) ]);
-                              }
-                            }}
-                          />
-                          {checkbox.value}
-                        </label>
-                      );
-                    })}
-                    {errors ? JSON.stringify(errors) : null}
-                  </>
-                );
-              }}
+                  const { value: currentValue, setValue, errors } = props;
+                  return (
+                    <>
+                      {checkboxes.map(checkbox => {
+                        const checked = !!currentValue.find((v: any) => v === checkbox.value);
+                        return (
+                          <label key={checkbox.value}>
+                            <input
+                              type="checkbox"
+                              value={checkbox.value}
+                              checked={checked}
+                              onChange={e => {
+                                const { value, checked } = e.target;
+                                if (checked) {
+                                  setValue([...currentValue, value]);
+                                } else {
+                                  setValue([...currentValue.filter((v: any) => v !== value)]);
+                                }
+                              }}
+                            />
+                            {checkbox.value}
+                          </label>
+                        );
+                      })}
+                      {errors ? JSON.stringify(errors) : null}
+                    </>
+                  );
+                }}
               </FieldControl>
             </div>
           </div>
           <div className="form__item">
             <div className="form__item-label">Selection</div>
             <div className="form__item-field">
-              <FieldControl name="select" >
+              <FieldControl name="select">
                 {(props: any) => {
-                const { value, setValue } = props;
-                return (
-                  <>
-                    <select name="select" value={value} onChange={e => setValue(e.target.value)}>
-                      <option value={1}>option1</option>
-                      <option value={2}>option2</option>
-                      <option value={3}>option3</option>
-                    </select>
-                  </>
-                );
-              }}
+                  const { value, setValue } = props;
+                  return (
+                    <>
+                      <select name="select" value={value} onChange={e => setValue(e.target.value)}>
+                        <option value={1}>option1</option>
+                        <option value={2}>option2</option>
+                        <option value={3}>option3</option>
+                      </select>
+                    </>
+                  );
+                }}
               </FieldControl>
             </div>
           </div>

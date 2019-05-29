@@ -24,7 +24,7 @@ describe("Validators", () => {
 
     it("returns error object if given value is less than threshold", () => {
       const validator = Validators.min(3);
-      expect(validator(2)).toEqual({ min: { min: 3, actualValue: 2 }});
+      expect(validator(2)).toEqual({ min: { min: 3, actualValue: 2 } });
     });
   });
 
@@ -36,7 +36,7 @@ describe("Validators", () => {
 
     it("returns error object if given value is larger than threshold", () => {
       const validator = Validators.max(3);
-      expect(validator(5)).toEqual({ max: { max: 3, actualValue: 5 }});
+      expect(validator(5)).toEqual({ max: { max: 3, actualValue: 5 } });
     });
   });
 
