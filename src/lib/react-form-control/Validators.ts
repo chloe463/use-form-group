@@ -17,42 +17,42 @@ export class Validators {
       return { required: true };
     }
     return null;
-  }
+  };
 
-  public static min = (min: number): Validator  => (value: number) => {
+  public static min = (min: number): Validator => (value: number) => {
     if (value < min) {
       return { min: { min, actualValue: value } };
     }
     return null;
-  }
+  };
 
-  public static max = (max: number): Validator  => (value: number) => {
+  public static max = (max: number): Validator => (value: number) => {
     if (value > max) {
       return { max: { max, actualValue: value } };
     }
     return null;
-  }
+  };
 
-  public static maxLength = (length: number): Validator  => (value: string) => {
+  public static maxLength = (length: number): Validator => (value: string) => {
     if (value.length > length) {
       return { maxLength: { maxLength: length, actualLength: value.length } };
     }
     return null;
-  }
+  };
 
-  public static minLength = (length: number): Validator  => (value: string) => {
+  public static minLength = (length: number): Validator => (value: string) => {
     if (value.length < length) {
       return { minLength: { minLength: length, actualLength: value.length } };
     }
     return null;
-  }
+  };
 
-  public static format = (regexp: RegExp): Validator  => (value: string) => {
+  public static format = (regexp: RegExp): Validator => (value: string) => {
     if (!value.match(regexp)) {
       return { format: true };
     }
     return null;
-  }
+  };
 }
 
 export const mergeValidators = (validators: Validator | Validator[] | undefined) => {

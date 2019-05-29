@@ -2,14 +2,12 @@ import { useState, useCallback, useMemo, useEffect } from "react";
 import { Validator, ValidatorErrors, mergeValidators } from "./Validators";
 import { FormGroupStatus } from "./constants";
 
-type ValidatorsOption<T> = {
-  [key in keyof T]?: Validator | Validator[];
-};
+type ValidatorsOption<T> = { [key in keyof T]?: Validator | Validator[] };
 
-export interface FormGroupOptions<T extends Record<string, any>>{
+export interface FormGroupOptions<T extends Record<string, any>> {
   values: T;
   validators: ValidatorsOption<T>;
-  lazyInit: () => Promise<T>
+  lazyInit: () => Promise<T>;
 }
 
 export interface Meta {
@@ -68,40 +66,43 @@ export function useFormGroup<T>(formGroupOptions: FormGroupOptions<T>): FormGrou
             newErrors[key] = validator((values as Record<string, any>)[key]);
           }
         });
-        setValues(currentValues =>  ({ ...currentValues, ...values }));
+        setValues(currentValues => ({ ...currentValues, ...values }));
         setErrors(currentErrors => ({ ...currentErrors, ...newErrors }));
       });
     }
-  // NOTE: Call lazeInit only once on mount.
-  // eslint-disable-next-line
+    // NOTE: Call lazeInit only once on mount.
+    // eslint-disable-next-line
   }, []);
 
   const { validators } = useMemo(() => {
     return initValidators(formGroupOptions.validators);
   }, [formGroupOptions]);
 
-  const setValue = useCallback((keysAndValues: Record<string, any>) => {
-    const updatedValues: Record<string, any> = {};
-    const updatedMeta: Record<string, any> = {};
-    const newErrors: ValidatorErrors = {};
-    Object.keys(keysAndValues).forEach(key => {
-      updatedValues[key] = keysAndValues[key];
-      updatedMeta[key] = {
-        pristine: false,
-        dirty: true,
-        touched: true,
-        untouched: false,
-      };
+  const setValue = useCallback(
+    (keysAndValues: Record<string, any>) => {
+      const updatedValues: Record<string, any> = {};
+      const updatedMeta: Record<string, any> = {};
+      const newErrors: ValidatorErrors = {};
+      Object.keys(keysAndValues).forEach(key => {
+        updatedValues[key] = keysAndValues[key];
+        updatedMeta[key] = {
+          pristine: false,
+          dirty: true,
+          touched: true,
+          untouched: false,
+        };
 
-      const validator = validators[key];
-      if (validator) {
-        newErrors[key] = validator(updatedValues[key]);
-      }
-    });
-    setValues(currentValues => ({ ...currentValues, ...updatedValues }));
-    setMetaInfo(currentMetas => ({ ...currentMetas, ...updatedMeta }));
-    setErrors(currentErrors => ({ ...currentErrors, ...newErrors }));
-  }, [validators]);
+        const validator = validators[key];
+        if (validator) {
+          newErrors[key] = validator(updatedValues[key]);
+        }
+      });
+      setValues(currentValues => ({ ...currentValues, ...updatedValues }));
+      setMetaInfo(currentMetas => ({ ...currentMetas, ...updatedMeta }));
+      setErrors(currentErrors => ({ ...currentErrors, ...newErrors }));
+    },
+    [validators]
+  );
 
   useEffect(() => {
     if (!errors) {
