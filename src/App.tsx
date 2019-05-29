@@ -24,11 +24,13 @@ const lazyInit = () => {
 };
 
 const App = () => {
+  const radios = [{ key: "radio1", value: "1" }, { key: "radio2", value: "2" }, { key: "radio3", value: "3" }];
   const checkboxes = [
     { value: "val1", checked: false },
     { value: "val2", checked: true },
     { value: "val3", checked: false },
   ];
+  const options = [{ key: "option1", value: "1" }, { key: "option2", value: "2" }, { key: "option3", value: "3" }];
 
   const formGroupOptions = {
     values: {
@@ -91,40 +93,21 @@ const App = () => {
                   const { value, setValue } = props;
                   return (
                     <>
-                      <label htmlFor="radio1">
-                        <input
-                          id="radio1"
-                          type="radio"
-                          name="radio"
-                          value={1}
-                          onChange={e => setValue(e.target.value)}
-                          checked={value == 1 /* eslint-disable-line */}
-                        />
-                        <span>Radio1</span>
-                      </label>
-                      <label htmlFor="radio2">
-                        <input
-                          id="radio2"
-                          type="radio"
-                          name="radio"
-                          value={2}
-                          onChange={e => setValue(e.target.value)}
-                          checked={value == 2 /* eslint-disable-line */}
-                        />
-                        <span>Radio2</span>
-                      </label>
-                      <label htmlFor="radio3">
-                        {/* eslint-disable-next-line */}
-                        <input
-                          id="radio3"
-                          type="radio"
-                          name="radio"
-                          value={3}
-                          onChange={e => setValue(e.target.value)}
-                          checked={value == 3 /* eslint-disable-line */}
-                        />
-                        <span>Radio3</span>
-                      </label>
+                      {radios.map(radio => {
+                        return (
+                          <label htmlFor={radio.key} key={radio.key}>
+                            <input
+                              id={radio.key}
+                              type="radio"
+                              name="radio"
+                              value={radio.value}
+                              onChange={e => setValue(e.target.value)}
+                              checked={value === radio.value}
+                            />
+                            <span>Radio1</span>
+                          </label>
+                        );
+                      })}
                     </>
                   );
                 }}
@@ -176,9 +159,13 @@ const App = () => {
                   return (
                     <>
                       <select name="select" value={value} onChange={e => setValue(e.target.value)}>
-                        <option value={1}>option1</option>
-                        <option value={2}>option2</option>
-                        <option value={3}>option3</option>
+                        {options.map(option => {
+                          return (
+                            <option key={option.key} value={option.value}>
+                              {option.key}
+                            </option>
+                          );
+                        })}
                       </select>
                     </>
                   );
