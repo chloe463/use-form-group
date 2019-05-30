@@ -75,11 +75,12 @@ const App = () => {
             <div className="form__item-field">
               <FieldControl name="text">
                 {(props: any) => {
-                  const { value, setValue, touched, errors } = props;
+                  const { value, setValue, touched, errors, pristine, dirty } = props;
                   return (
                     <>
                       <input type="text" value={value} onChange={e => setValue(e.target.value)} />
                       {touched && errors && JSON.stringify(errors)}
+                      {JSON.stringify({ pristine, dirty }, null, 2)}
                     </>
                   );
                 }}
