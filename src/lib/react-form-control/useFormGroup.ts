@@ -25,6 +25,7 @@ export interface FormGroup {
   setValue: FormValueSetterFn;
   values: any;
   errors: ValidatorErrors;
+  reset: () => void;
 }
 
 function initMeta<T>(values: T) {
@@ -50,6 +51,7 @@ function initValidators<T>(validators: FormGroupOptions<T>["validators"]) {
 }
 
 export function useFormGroup<T>(formGroupOptions: FormGroupOptions<T>): FormGroup {
+  const [initialValues] = useState<Record<string, any>>(formGroupOptions.values);
   const [values, setValues] = useState<Record<string, any>>(formGroupOptions.values);
   const [metaInfos, setMetaInfo] = useState<Record<string, Meta>>(initMeta(formGroupOptions.values));
   const [errors, setErrors] = useState<ValidatorErrors>({});
@@ -77,6 +79,13 @@ export function useFormGroup<T>(formGroupOptions: FormGroupOptions<T>): FormGrou
   const { validators } = useMemo(() => {
     return initValidators(formGroupOptions.validators);
   }, [formGroupOptions]);
+
+  const reset = useCallback(() => {
+    setValues(initialValues);
+    setMetaInfo(initMeta(initialValues));
+    setErrors({});
+    // eslint-disable-next-line
+  }, []);
 
   const setValue = useCallback(
     (keysAndValues: Record<string, any>) => {
@@ -122,5 +131,6 @@ export function useFormGroup<T>(formGroupOptions: FormGroupOptions<T>): FormGrou
     metaInfos,
     values,
     errors,
+    reset,
   };
 }
