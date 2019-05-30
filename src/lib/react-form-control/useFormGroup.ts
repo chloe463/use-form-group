@@ -56,10 +56,14 @@ export function useFormGroup<T>(formGroupOptions: FormGroupOptions<T>): FormGrou
   const [metaInfos, setMetaInfo] = useState<Record<string, Meta>>(initMeta(formGroupOptions.values));
   const [errors, setErrors] = useState<ValidatorErrors>({});
   const [status, setStatus] = useState<null | FormGroupStatus>(null);
+  const { lazyInit } = formGroupOptions;
 
-  useEffect(() => {
-    const { lazyInit } = formGroupOptions;
-    if (lazyInit) {
+  const { validators } = useMemo(() => {
+    return initValidators(formGroupOptions.validators);
+  }, [formGroupOptions]);
+
+  const initializeWithLazyInitFn = useCallback(
+    (lazyInit: () => Promise<T>) => {
       lazyInit().then(values => {
         const newErrors: ValidatorErrors = {};
         Object.keys(values).forEach(key => {
@@ -71,19 +75,25 @@ export function useFormGroup<T>(formGroupOptions: FormGroupOptions<T>): FormGrou
         setValues(currentValues => ({ ...currentValues, ...values }));
         setErrors(currentErrors => ({ ...currentErrors, ...newErrors }));
       });
+    },
+    [validators]
+  );
+
+  useEffect(() => {
+    if (lazyInit) {
+      initializeWithLazyInitFn(lazyInit);
     }
     // NOTE: Call lazeInit only once on mount.
     // eslint-disable-next-line
   }, []);
 
-  const { validators } = useMemo(() => {
-    return initValidators(formGroupOptions.validators);
-  }, [formGroupOptions]);
-
   const reset = useCallback(() => {
     setValues(initialValues);
     setMetaInfo(initMeta(initialValues));
     setErrors({});
+    if (lazyInit) {
+      initializeWithLazyInitFn(lazyInit);
+    }
     // eslint-disable-next-line
   }, []);
 
