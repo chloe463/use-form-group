@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
-
-import { FieldContext } from "./FormGroupContext";
+import React from "react";
 import { ValidatorErrors } from "./Validators";
+import { useFormControl } from "./useFormControl";
 
 export interface FieldControlChildrenProps {
   value: any;
@@ -20,19 +19,11 @@ interface FieldControlProps {
 
 export const FieldControl: React.FC<FieldControlProps> = (props: FieldControlProps) => {
   const { name, children } = props;
-  const formGroup = useContext(FieldContext);
-  if (formGroup === null) {
-    throw new Error(
-      ['Could not find "formGroup" in context.', "Wrap the root component in a <FormGroupProvider>."].join(" ")
-    );
-  }
-
-  const { values, metaInfos, errors } = formGroup;
-  const setValue = (value: any) => formGroup.setValue({ [name]: value });
+  const { value, errors, setValue, ...meta } = useFormControl(name);
   return children({
-    value: values[name],
-    ...metaInfos[name],
-    errors: errors ? errors[name] : null,
+    value,
+    errors,
     setValue,
+    ...meta,
   });
 };
