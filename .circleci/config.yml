@@ -4,6 +4,8 @@ jobs:
   build:
     docker:
       - image: circleci/node:10.15.3
+    environment:
+      - SKIP_PREFLIGHT_CHECK: true
 
     steps:
       - checkout
