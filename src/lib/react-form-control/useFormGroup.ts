@@ -105,8 +105,8 @@ export function useFormGroup<T>(formGroupOptions: FormGroupOptions<T>): FormGrou
       Object.keys(keysAndValues).forEach(key => {
         updatedValues[key] = keysAndValues[key];
         updatedMeta[key] = {
-          pristine: false,
-          dirty: true,
+          pristine: updatedValues[key] === initialValues[key],
+          dirty: updatedValues[key] !== initialValues[key],
           touched: true,
           untouched: false,
         };
@@ -120,7 +120,7 @@ export function useFormGroup<T>(formGroupOptions: FormGroupOptions<T>): FormGrou
       setMetaInfo(currentMetas => ({ ...currentMetas, ...updatedMeta }));
       setErrors(currentErrors => ({ ...currentErrors, ...newErrors }));
     },
-    [validators]
+    [initialValues, validators]
   );
 
   useEffect(() => {
