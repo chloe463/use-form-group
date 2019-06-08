@@ -6,8 +6,8 @@ type ValidatorsOption<T> = { [key in keyof T]?: Validator | Validator[] };
 
 export interface FormGroupOptions<T extends Record<string, any>> {
   values: T;
-  validators: ValidatorsOption<T>;
-  lazyInit: () => Promise<T>;
+  validators?: ValidatorsOption<T>;
+  lazyInit?: () => Promise<T>;
 }
 
 export interface Meta {
@@ -28,7 +28,7 @@ export interface FormGroup {
   reset: () => void;
 }
 
-function initMeta<T>(values: T) {
+export function initMeta<T>(values: T) {
   const meta: Record<string, any> = {};
   Object.keys(values).forEach((key: string) => {
     meta[key] = {
@@ -41,7 +41,10 @@ function initMeta<T>(values: T) {
   return meta;
 }
 
-function initValidators<T>(validators: FormGroupOptions<T>["validators"]) {
+export function initValidators<T>(validators: FormGroupOptions<T>["validators"]) {
+  if (!validators) {
+    return { validators: {} };
+  }
   const mergedValidators: { [key: string]: Validator } = {};
   Object.keys(validators).forEach(key => {
     const validator = (validators as any)[key];
@@ -55,12 +58,14 @@ export function useFormGroup<T>(formGroupOptions: FormGroupOptions<T>): FormGrou
   const [values, setValues] = useState<Record<string, any>>(formGroupOptions.values);
   const [metaInfos, setMetaInfo] = useState<Record<string, Meta>>(initMeta(formGroupOptions.values));
   const [errors, setErrors] = useState<ValidatorErrors>({});
-  const [status, setStatus] = useState<null | FormGroupStatus>(null);
+  const [status, setStatus] = useState<null | FormGroupStatus>("VALID");
   const { lazyInit } = formGroupOptions;
 
   const { validators } = useMemo(() => {
     return initValidators(formGroupOptions.validators);
   }, [formGroupOptions]);
+
+  // TODO: Validate initial values on mount
 
   const initializeWithLazyInitFn = useCallback(
     (lazyInit: () => Promise<T>) => {
@@ -128,11 +133,16 @@ export function useFormGroup<T>(formGroupOptions: FormGroupOptions<T>): FormGrou
       setStatus("VALID");
       return;
     }
+    let hasError = false;
     Object.values(errors).forEach(e => {
       if (e !== null && Object.keys(e).length > 0) {
         setStatus("INVALID");
+        hasError = true;
       }
     });
+    if (!hasError) {
+      setStatus("VALID");
+    }
   }, [errors]);
 
   return {
