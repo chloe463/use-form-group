@@ -1,11 +1,6 @@
-import React from "react";
-import { render, fireEvent, cleanup } from "@testing-library/react";
-import { FormGroupProvider } from "../FormGroupContext";
+import { renderHook, act } from "react-hooks-testing-library";
 import { initMeta, initValidators, useFormGroup } from "../useFormGroup";
 import { Validators } from "../Validators";
-import { FieldControl } from "../FieldControl";
-
-afterEach(cleanup);
 
 describe("initMeta", () => {
   it("initializes meta values", () => {
@@ -42,75 +37,80 @@ describe("initValidators", () => {
   });
 });
 
-const MockComponent = () => {
-  const formGroup = useFormGroup({
-    values: {
-      num: 0,
-    },
-    validators: {
-      num: Validators.max(5),
-    },
-  });
-
-  return (
-    <FormGroupProvider formGroup={formGroup}>
-      <div data-testid="status">{formGroup.status}</div>
-      <FieldControl name="num">
-        {({ value, setValue, errors, touched }) => {
-          return (
-            <>
-              <input type="number" value={value} onChange={e => setValue(e.target.value)} data-testid="input" />
-              <span data-testid="value">{value}</span>
-              <span data-testid="errors">{JSON.stringify(errors)}</span>
-              <span data-testid="touched">{JSON.stringify(touched)}</span>
-            </>
-          );
-        }}
-      </FieldControl>
-    </FormGroupProvider>
-  );
-};
-
 describe("useFormGroup", () => {
   it("can render initial values", () => {
-    const { getByTestId } = render(<MockComponent />);
-    const value = getByTestId("value");
-    const errors = getByTestId("errors");
-    const touched = getByTestId("touched");
-    const status = getByTestId("status");
-    expect(value.innerHTML).toBe("0");
-    expect(errors.innerHTML).toBe("");
-    expect(touched.innerHTML).toBe("false");
-    expect(status.innerHTML).toBe("VALID");
+    const { result } = renderHook(() =>
+      useFormGroup({
+        values: {
+          num: 0,
+        },
+      })
+    );
+    expect(result.current.values).toEqual({ num: 0 });
+    expect(result.current.errors).toEqual({});
+    expect(typeof result.current.setValue).toBe("function");
+    expect(typeof result.current.reset).toBe("function");
+    expect(result.current.metaInfos).toEqual({
+      num: {
+        pristine: true,
+        dirty: false,
+        touched: false,
+        untouched: true,
+      },
+    });
+    expect(result.current.status).toBe("VALID");
   });
 
   it("can set value on change event", () => {
-    const { getByTestId } = render(<MockComponent />);
-    const input = getByTestId("input");
-    const value = getByTestId("value");
-    const errors = getByTestId("errors");
-    const touched = getByTestId("touched");
-    const status = getByTestId("status");
+    const { result } = renderHook(() =>
+      useFormGroup({
+        values: {
+          num: 0,
+        },
+      })
+    );
 
-    fireEvent.change(input, { target: { value: "3" } });
-    expect(value.innerHTML).toBe("3");
-    expect(errors.innerHTML).toBe("null");
-    expect(touched.innerHTML).toBe("true");
-    expect(status.innerHTML).toBe("VALID");
+    expect(result.current.values).toEqual({ num: 0 });
+    expect(result.current.metaInfos).toEqual({
+      num: {
+        pristine: true,
+        dirty: false,
+        touched: false,
+        untouched: true,
+      },
+    });
+    act(() => {
+      result.current.setValue({ num: 1 });
+    });
+    expect(result.current.values).toEqual({ num: 1 });
+    expect(result.current.metaInfos).toEqual({
+      num: {
+        pristine: false,
+        dirty: true,
+        touched: true,
+        untouched: false,
+      },
+    });
   });
 
   it("can handle validation errors", () => {
-    const { getByTestId } = render(<MockComponent />);
-    const input = getByTestId("input");
-    const value = getByTestId("value");
-    const errors = getByTestId("errors");
-    const touched = getByTestId("touched");
-    const status = getByTestId("status");
-
-    fireEvent.change(input, { target: { value: "8" } });
-    expect(value.innerHTML).toBe("8");
-    expect(errors.innerHTML).toBe(JSON.stringify({ max: { max: 5, actualValue: "8" } }));
-    expect(touched.innerHTML).toBe("true");
-    expect(status.innerHTML).toBe("INVALID");
+    const { result } = renderHook(() =>
+      useFormGroup({
+        values: {
+          num: 0,
+        },
+        validators: {
+          num: Validators.max(3),
+        },
+      })
+    );
+    expect(result.current.errors).toEqual({});
+    act(() => {
+      result.current.setValue({ num: 5 });
+    });
+    expect(result.current.errors).toEqual({
+      num: { max: { max: 3, actualValue: 5 } },
+    });
+    expect(result.current.status).toBe("INVALID");
   });
 });
