@@ -133,11 +133,16 @@ export function useFormGroup<T>(formGroupOptions: FormGroupOptions<T>): FormGrou
       setStatus("VALID");
       return;
     }
+    let hasError = false;
     Object.values(errors).forEach(e => {
       if (e !== null && Object.keys(e).length > 0) {
         setStatus("INVALID");
+        hasError = true;
       }
     });
+    if (!hasError) {
+      setStatus("VALID");
+    }
   }, [errors]);
 
   return {

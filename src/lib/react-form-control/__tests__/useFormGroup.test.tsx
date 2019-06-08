@@ -112,6 +112,14 @@ describe("useFormGroup", () => {
       num: { max: { max: 3, actualValue: 5 } },
     });
     expect(result.current.status).toBe("INVALID");
+
+    act(() => {
+      result.current.setValue({ num: 2 });
+    });
+    expect(result.current.errors).toEqual({
+      num: null,
+    });
+    expect(result.current.status).toBe("VALID");
   });
 
   it("can initialize value with lazyInit function", async () => {
