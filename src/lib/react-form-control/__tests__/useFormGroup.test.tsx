@@ -113,4 +113,85 @@ describe("useFormGroup", () => {
     });
     expect(result.current.status).toBe("INVALID");
   });
+
+  it("can initialize value with lazyInit function", async () => {
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useFormGroup({
+        values: {
+          num: 0,
+        },
+        lazyInit: jest.fn().mockResolvedValue({ num: 1 }),
+      })
+    );
+    await waitForNextUpdate();
+    expect(result.current.values).toEqual({ num: 1 });
+    expect(result.current.metaInfos).toEqual({
+      num: {
+        pristine: true,
+        dirty: false,
+        touched: false,
+        untouched: true,
+      },
+    });
+  });
+
+  it("can reset values", () => {
+    const { result } = renderHook(() =>
+      useFormGroup({
+        values: {
+          num: 0,
+        },
+      })
+    );
+    act(() => {
+      result.current.setValue({ num: 1 });
+    });
+    expect(result.current.values).toEqual({ num: 1 });
+    expect(result.current.metaInfos).toEqual({
+      num: {
+        pristine: false,
+        dirty: true,
+        touched: true,
+        untouched: false,
+      },
+    });
+
+    act(() => {
+      result.current.reset();
+    });
+    expect(result.current.values).toEqual({ num: 0 });
+    expect(result.current.metaInfos).toEqual({
+      num: {
+        pristine: true,
+        dirty: false,
+        touched: false,
+        untouched: true,
+      },
+    });
+  });
+
+  it("can reset values with lazyInit function", async () => {
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useFormGroup({
+        values: {
+          num: 0,
+        },
+        lazyInit: jest.fn().mockResolvedValue({ num: 1 }),
+      })
+    );
+
+    await waitForNextUpdate();
+    expect(result.current.values).toEqual({ num: 1 });
+
+    act(() => {
+      result.current.setValue({ num: 2 });
+    });
+    expect(result.current.values).toEqual({ num: 2 });
+
+    act(() => {
+      result.current.reset();
+    });
+    await waitForNextUpdate();
+    expect(result.current.values).toEqual({ num: 1 });
+  });
 });
