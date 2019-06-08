@@ -143,6 +143,25 @@ describe("useFormGroup", () => {
     });
   });
 
+  it("can initialize value with lazyInit function and values has validation errors", async () => {
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useFormGroup({
+        values: {
+          num: 0,
+        },
+        validators: {
+          num: Validators.max(3),
+        },
+        lazyInit: jest.fn().mockResolvedValue({ num: 5 }),
+      })
+    );
+    await waitForNextUpdate();
+    expect(result.current.values).toEqual({ num: 5 });
+    expect(result.current.errors).toEqual({
+      num: { max: { max: 3, actualValue: 5 } },
+    });
+  });
+
   it("can reset values", () => {
     const { result } = renderHook(() =>
       useFormGroup({
