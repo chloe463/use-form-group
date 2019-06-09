@@ -1,21 +1,26 @@
 {
-  "name": "my-react-packages",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@chloe463/use-form-group",
+  "version": "0.1.1",
+  "license": "MIT",
   "dependencies": {
     "@types/jest": "24.0.11",
     "@types/node": "11.12.1",
-    "@types/react": "16.8.10",
-    "@types/react-dom": "16.8.3",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "@types/react": "^16.8.0",
+    "@types/react-dom": "^16.8.0",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
     "react-scripts": "2.1.8",
     "typescript": "3.4.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build:lib": "rm -rf builds && tsc -p tsconfig.build.json",
+    "build:lib": "./scripts/build.sh",
+    "build:esm5": "tsc -p tsconfig-esm5.json",
+    "build:esm2015": "tsc -p tsconfig-esm2015.json",
+    "build:fesm5": "rollup -c rollup-esm5.conf.js",
+    "build:fesm2015": "rollup -c rollup-esm2015.conf.js",
+    "build:umd": "rollup -c rollup-umd.conf.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "frolint"
@@ -34,6 +39,7 @@
     "frolint": "^0.5.2",
     "react-hooks-testing-library": "^0.5.1",
     "react-test-renderer": "^16.8.0",
+    "rollup": "^1.14.4",
     "stop-runaway-react-effects": "^1.2.0"
   }
 }
