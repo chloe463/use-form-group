@@ -15,7 +15,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build:lib": "rm -rf builds && tsc -p tsconfig.build.json",
+    "build:esm5": "rm -rf .packaging/esm5 && tsc -p tsconfig-esm5.json",
+    "build:esm2015": "rm -rf .packaging/esm2015 && tsc -p tsconfig-esm2015.json",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "frolint"
@@ -34,6 +35,7 @@
     "frolint": "^0.5.2",
     "react-hooks-testing-library": "^0.5.1",
     "react-test-renderer": "^16.8.0",
+    "rollup": "^1.14.4",
     "stop-runaway-react-effects": "^1.2.0"
   }
 }
