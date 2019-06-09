@@ -1,6 +1,6 @@
 {
   "name": "@chloe463/use-form-group",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "dependencies": {
     "@types/jest": "24.0.11",
@@ -15,6 +15,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:lib": "./scripts/build.sh",
     "build:esm5": "tsc -p tsconfig-esm5.json",
     "build:esm2015": "tsc -p tsconfig-esm2015.json",
     "build:fesm5": "rollup -c rollup-esm5.conf.js",

@@ -18,3 +18,4 @@ cp -r .packaging/esm2015/*.d.ts .packaging/esm2015/** builds/src
 rm ./builds/src/*.js
 
 node ./scripts/modify-package-json.js
+cp README.md ./builds/
