@@ -1,0 +1,14 @@
+.TextField__input {
+  background-color: #424242;
+  color: #ffffff;
+  outline: none;
+  border: none;
+  font-size: 10pt;
+  text-indent: 2px;
+  height: 24px;
+}
+
+
+.meta-and-errors {
+  /* display: inline-block; */
+}

@@ -1,12 +1,13 @@
 import React from "react";
 import { useFormControl } from "../lib/react-form-control";
+import { MetaAndErrors } from "./MetaAndErrors";
 
 interface Props {
   radios: { key: string; value: string }[];
 }
 
 export const RadioField: React.FC<Props> = ({ radios }) => {
-  const { value, setValue } = useFormControl("radio");
+  const { value, setValue, errors, ...meta } = useFormControl("radio");
   return (
     <>
       {radios.map(radio => {
@@ -20,10 +21,11 @@ export const RadioField: React.FC<Props> = ({ radios }) => {
               onChange={e => setValue(e.target.value)}
               checked={value === radio.value}
             />
-            <span>Radio1</span>
+            <span>{radio.key}</span>
           </label>
         );
       })}
+      <MetaAndErrors meta={meta} errors={errors} />
     </>
   );
 };

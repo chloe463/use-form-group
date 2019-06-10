@@ -1,12 +1,13 @@
 import React from "react";
 import { useFormControl } from "../lib/react-form-control";
+import { MetaAndErrors } from "./MetaAndErrors";
 
 interface Props {
   checkboxes: { value: string; checked: boolean }[];
 }
 
 export const CheckboxField: React.FC<Props> = ({ checkboxes }) => {
-  const { value: currentValue, setValue, errors } = useFormControl("checkbox");
+  const { value: currentValue, setValue, errors, ...meta } = useFormControl("checkbox");
   return (
     <>
       {checkboxes.map(checkbox => {
@@ -30,7 +31,7 @@ export const CheckboxField: React.FC<Props> = ({ checkboxes }) => {
           </label>
         );
       })}
-      {errors ? JSON.stringify(errors) : null}
+      <MetaAndErrors meta={meta} errors={errors} />
     </>
   );
 };

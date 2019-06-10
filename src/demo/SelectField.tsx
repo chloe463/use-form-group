@@ -1,12 +1,13 @@
 import React from "react";
 import { useFormControl } from "../lib/react-form-control";
+import { MetaAndErrors } from "./MetaAndErrors";
 
 interface Props {
   options: { key: string; value: string }[];
 }
 
 export const SelectField: React.FC<Props> = ({ options }) => {
-  const { value, setValue } = useFormControl("select");
+  const { value, setValue, errors, ...meta } = useFormControl("select");
   return (
     <>
       <select name="select" value={value} onChange={e => setValue(e.target.value)}>
@@ -18,6 +19,7 @@ export const SelectField: React.FC<Props> = ({ options }) => {
           );
         })}
       </select>
+      <MetaAndErrors meta={meta} errors={errors} />
     </>
   );
 };
