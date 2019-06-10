@@ -3,12 +3,16 @@
   color: #ffffff;
   outline: none;
   border: none;
-  font-size: 10pt;
-  text-indent: 2px;
-  height: 24px;
+  font-size: 12pt;
+  text-indent: 4px;
+  height: 32px;
+  width: 50%;
 }
 
-
 .meta-and-errors {
-  /* display: inline-block; */
+  margin: 8px 0;
+}
+
+.meta-and-errors > pre {
+  font-family: poppins;
 }

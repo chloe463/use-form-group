@@ -14,8 +14,8 @@ interface Props {
 export const MetaAndErrors: React.FC<Props> = ({ meta, errors }) => {
   return (
     <div className="meta-and-errors">
-      meta: <pre>{JSON.stringify(meta)}</pre>
-      errors: <pre>{JSON.stringify(errors)}</pre>
+      <pre>meta: {JSON.stringify(meta)}</pre>
+      <pre>errors: {JSON.stringify(errors)}</pre>
     </div>
   );
 };
