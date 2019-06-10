@@ -1,0 +1,42 @@
+.TextField__input {
+  background-color: #424242;
+  color: #ffffff;
+  outline: none;
+  border: none;
+  font-size: 12pt;
+  text-indent: 4px;
+  height: 32px;
+  width: 50%;
+}
+
+.Radio__option {
+  cursor: pointer;
+}
+
+.Radio__option:not(:first-of-type) {
+  margin-left: 16px;
+}
+
+.Radio__option > input + span {
+  margin-left: 4px;
+}
+
+.Checkbox__option {
+  cursor: pointer;
+}
+
+.Checkbox__option:not(:first-of-type) {
+  margin-left: 16px;
+}
+
+.Checkbox__option > input + span {
+  margin-left: 4px;
+}
+
+.meta-and-errors {
+  margin: 8px 0;
+}
+
+.meta-and-errors > pre {
+  font-family: poppins;
+}

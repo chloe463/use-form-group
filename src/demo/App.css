@@ -1,0 +1,40 @@
+body {
+  background-color: #424242;
+  color: #ffffff;
+  font-family: Poppins, HiraginoSans-W3;
+}
+
+.App {
+  width: 85%;
+  margin: auto;
+}
+
+.App__title-container {
+}
+
+.App__title {
+}
+
+.form {
+  background-color: #303030;
+  display: block;
+  margin: 24px auto;
+  box-shadow: 0 2px 5px rgba(0,0,0,.26);
+}
+
+.form__item {
+  padding: 8px 24px;
+}
+
+.form__item:nth-of-type(even) {
+  background-color: #3e3e3e;
+}
+
+.form__item-label {
+  text-align: left;
+  margin: 8px 0;
+}
+
+.form__item-field {
+  text-align: left;
+}
