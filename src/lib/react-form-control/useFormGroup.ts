@@ -24,7 +24,7 @@ export interface FormGroup {
   metaInfos: Record<string, Meta>;
   setValue: FormValueSetterFn;
   values: any;
-  errors: ValidatorErrors;
+  errors: ValidatorErrors | null;
   reset: () => void;
 }
 
@@ -53,11 +53,19 @@ export function initValidators<T>(validators: FormGroupOptions<T>["validators"])
   return { validators: mergedValidators };
 }
 
+export function initErrors<T>(values: T) {
+  const errors: ValidatorErrors = {};
+  Object.keys(values).forEach(key => {
+    errors[key] = null;
+  });
+  return errors;
+}
+
 export function useFormGroup<T>(formGroupOptions: FormGroupOptions<T>): FormGroup {
   const [initialValues] = useState<Record<string, any>>(formGroupOptions.values);
   const [values, setValues] = useState<Record<string, any>>(formGroupOptions.values);
   const [metaInfos, setMetaInfo] = useState<Record<string, Meta>>(initMeta(formGroupOptions.values));
-  const [errors, setErrors] = useState<ValidatorErrors>({});
+  const [errors, setErrors] = useState<ValidatorErrors>(initErrors(formGroupOptions.values));
   const [status, setStatus] = useState<null | FormGroupStatus>("VALID");
   const { lazyInit } = formGroupOptions;
 

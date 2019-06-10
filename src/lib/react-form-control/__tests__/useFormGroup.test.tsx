@@ -47,7 +47,7 @@ describe("useFormGroup", () => {
       })
     );
     expect(result.current.values).toEqual({ num: 0 });
-    expect(result.current.errors).toEqual({});
+    expect(result.current.errors).toEqual({ num: null });
     expect(typeof result.current.setValue).toBe("function");
     expect(typeof result.current.reset).toBe("function");
     expect(result.current.metaInfos).toEqual({
@@ -104,7 +104,7 @@ describe("useFormGroup", () => {
         },
       })
     );
-    expect(result.current.errors).toEqual({});
+    expect(result.current.errors).toEqual({ num: null });
     act(() => {
       result.current.setValue({ num: 5 });
     });
