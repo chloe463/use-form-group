@@ -12,7 +12,7 @@ export const RadioField: React.FC<Props> = ({ radios }) => {
     <>
       {radios.map(radio => {
         return (
-          <label htmlFor={radio.key} key={radio.key}>
+          <label htmlFor={radio.key} key={radio.key} className="Radio__option">
             <input
               id={radio.key}
               type="radio"

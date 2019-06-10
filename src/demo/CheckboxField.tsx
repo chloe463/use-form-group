@@ -13,7 +13,7 @@ export const CheckboxField: React.FC<Props> = ({ checkboxes }) => {
       {checkboxes.map(checkbox => {
         const checked = !!currentValue.find((v: any) => v === checkbox.value);
         return (
-          <label key={checkbox.value}>
+          <label key={checkbox.value} className="Checkbox__option">
             <input
               type="checkbox"
               value={checkbox.value}
@@ -27,7 +27,7 @@ export const CheckboxField: React.FC<Props> = ({ checkboxes }) => {
                 }
               }}
             />
-            {checkbox.value}
+            <span>{checkbox.value}</span>
           </label>
         );
       })}
