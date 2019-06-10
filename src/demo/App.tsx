@@ -56,14 +56,6 @@ const App = () => {
     // eslint-disable-next-line
     console.log(formGroup);
   }, [formGroup]);
-  // console.log(formGroup.values);
-
-  const _dummy = {
-    text: "updated!!!",
-    radio: "2",
-    checkbox: ["val1"],
-    select: "3",
-  };
 
   return (
     <div className="App">
@@ -96,14 +88,12 @@ const App = () => {
               <SelectField options={options} />
             </div>
           </div>
+          <div className="form__item">
+            <h2 className="form__item-label">Form Status</h2>
+            <div className="form__item-field">Status: {formGroup.status}</div>
+          </div>
         </form>
-        <button onClick={_e => formGroup.reset()}>formGroup.reset()</button>
-        <button onClick={_e => formGroup.setValue(_dummy)}>formGroup.setValue()</button>
-        <button onClick={_e => alert("can submit!")} disabled={formGroup.status === "INVALID"}>
-          dummy submit button
-        </button>
       </FormGroupProvider>
-      {/* <pre>{JSON.stringify(formGroup.controls, null, 2)}</pre> */}
     </div>
   );
 };
