@@ -6,6 +6,10 @@ describe("Validators", () => {
       expect(Validators.required("abc")).toBeNull();
     });
 
+    it("returns error object if empty array is given", () => {
+      expect(Validators.required([])).toEqual({ required: true });
+    });
+
     it("returns error object if null or undefined is given", () => {
       expect(Validators.required(null)).toEqual({ required: true });
       expect(Validators.required(undefined)).toEqual({ required: true });
