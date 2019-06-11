@@ -1,5 +1,9 @@
 # use-form-group
 
+[![CircleCI](https://circleci.com/gh/chloe463/use-form-group/tree/master.svg?style=svg)](https://circleci.com/gh/chloe463/use-form-group/tree/master)
+[![codecov](https://codecov.io/gh/chloe463/use-form-group/branch/master/graph/badge.svg)](https://codecov.io/gh/chloe463/use-form-group)
+
+
 ## Overview
 
 A react hooks library to control form value state. This library is inspired by Angular's [ReactiveFormModule](https://angular.io/guide/reactive-forms).
