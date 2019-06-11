@@ -14,7 +14,7 @@ export function useFormControl<T>(name: string) {
   return {
     value: values[name],
     ...metaInfos[name],
-    errors: errors ? errors[name] : null,
+    errors: errors[name],
     setValue,
   };
 }
