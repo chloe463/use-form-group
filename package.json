@@ -42,5 +42,10 @@
     "react-test-renderer": "^16.8.0",
     "rollup": "^1.14.4",
     "stop-runaway-react-effects": "^1.2.0"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/lib/**/*.{tsx,ts}"
+    ]
   }
 }
