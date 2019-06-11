@@ -1,9 +1,9 @@
 export type Validator = (value: any) => ValidatorErrors | null;
 export type AsyncValidator = (value: any) => Promise<null | ValidatorErrors>;
 // export type AsyncValidator = (value: any) => Promise<ValidatorErrors>;
-export type ValidatorErrors = {
+export interface ValidatorErrors {
   [key: string]: any;
-} | null;
+}
 
 export class Validators {
   public static required: Validator = (value: any) => {

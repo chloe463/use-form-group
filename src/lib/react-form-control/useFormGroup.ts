@@ -24,7 +24,7 @@ export interface FormGroup {
   metaInfos: Record<string, Meta>;
   setValue: FormValueSetterFn;
   values: any;
-  errors: ValidatorErrors | null;
+  errors: ValidatorErrors;
   reset: () => void;
 }
 
@@ -137,10 +137,6 @@ export function useFormGroup<T>(formGroupOptions: FormGroupOptions<T>): FormGrou
   );
 
   useEffect(() => {
-    if (!errors) {
-      setStatus("VALID");
-      return;
-    }
     let hasError = false;
     Object.values(errors).forEach(e => {
       if (e !== null && Object.keys(e).length > 0) {
