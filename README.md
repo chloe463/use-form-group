@@ -1,5 +1,9 @@
 # use-form-group
 
+[![CircleCI](https://circleci.com/gh/chloe463/use-form-group/tree/master.svg?style=svg)](https://circleci.com/gh/chloe463/use-form-group/tree/master)
+[![codecov](https://codecov.io/gh/chloe463/use-form-group/branch/master/graph/badge.svg)](https://codecov.io/gh/chloe463/use-form-group)
+
+
 ## Overview
 
 A react hooks library to control form value state. This library is inspired by Angular's [ReactiveFormModule](https://angular.io/guide/reactive-forms).
@@ -48,8 +52,8 @@ With `useFormControl` you will get...
 |errors: `{[key: string]: any}` |Validation errors|
 |pristine: boolean |True if the value is not updated|
 |dirty: boolean |True if the value is updated|
-|touch: boolean |True if the form is focused|
-|untouch: boolean |True if the form is not focused|
+|touched: boolean |True if the form is focused|
+|untouched: boolean |True if the form is not focused|
 
 ```tsx
 import React from "react";
