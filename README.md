@@ -48,8 +48,8 @@ With `useFormControl` you will get...
 |errors: `{[key: string]: any}` |Validation errors|
 |pristine: boolean |True if the value is not updated|
 |dirty: boolean |True if the value is updated|
-|touch: boolean |True if the form is focused|
-|untouch: boolean |True if the form is not focused|
+|touched: boolean |True if the form is focused|
+|untouched: boolean |True if the form is not focused|
 
 ```tsx
 import React from "react";
