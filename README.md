@@ -1,8 +1,8 @@
 # use-form-group
 
-[![CircleCI](https://circleci.com/gh/chloe463/use-form-group/tree/master.svg?style=svg)](https://circleci.com/gh/chloe463/use-form-group/tree/master)
+[![CircleCI](https://circleci.com/gh/chloe463/use-form-group/tree/master.svg?style=shield)](https://circleci.com/gh/chloe463/use-form-group/tree/master)
 [![codecov](https://codecov.io/gh/chloe463/use-form-group/branch/master/graph/badge.svg)](https://codecov.io/gh/chloe463/use-form-group)
-
+[![npmVersion](https://img.shields.io/npm/v/@chloe463/use-form-group.svg)](https://www.npmjs.com/package/@chloe463/use-form-group)
 
 ## Overview
 
