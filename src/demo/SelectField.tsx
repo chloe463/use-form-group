@@ -7,10 +7,18 @@ interface Props {
 }
 
 export const SelectField: React.FC<Props> = ({ options }) => {
-  const { value, setValue, errors, ...meta } = useFormControl("select");
+  const {
+    value,
+    setValue,
+    errors,
+    inputRef: _inputRef,
+    selectRef,
+    textareaRef: _textareaRef,
+    ...meta
+  } = useFormControl("select");
   return (
     <>
-      <select name="select" value={value} onChange={e => setValue(e.target.value)}>
+      <select name="select" value={value} onChange={e => setValue(e.target.value)} ref={selectRef}>
         {options.map(option => {
           return (
             <option key={option.key} value={option.value}>

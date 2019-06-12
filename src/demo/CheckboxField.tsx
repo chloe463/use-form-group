@@ -7,7 +7,15 @@ interface Props {
 }
 
 export const CheckboxField: React.FC<Props> = ({ checkboxes }) => {
-  const { value: currentValue, setValue, errors, ...meta } = useFormControl("checkbox");
+  const {
+    value: currentValue,
+    setValue,
+    errors,
+    inputRef,
+    selectRef: _selectRef,
+    textareaRef: _textareaRef,
+    ...meta
+  } = useFormControl("checkbox");
   return (
     <>
       {checkboxes.map(checkbox => {
@@ -26,6 +34,7 @@ export const CheckboxField: React.FC<Props> = ({ checkboxes }) => {
                   setValue([...currentValue.filter((v: any) => v !== value)]);
                 }
               }}
+              ref={inputRef}
             />
             <span>{checkbox.value}</span>
           </label>
