@@ -26,6 +26,7 @@ export interface FormGroup {
   values: any;
   errors: ValidatorErrors;
   reset: () => void;
+  setTouchedOnBlur: (key: string) => void;
 }
 
 export function initMeta<T>(values: T) {
@@ -136,6 +137,17 @@ export function useFormGroup<T>(formGroupOptions: FormGroupOptions<T>): FormGrou
     [initialValues, validators]
   );
 
+  const setTouchedOnBlur = useCallback((key: string) => {
+    setMetaInfo(currentMetas => ({
+      ...currentMetas,
+      [key]: {
+        ...currentMetas[key],
+        touched: true,
+        untouched: false,
+      },
+    }));
+  }, []);
+
   useEffect(() => {
     let hasError = false;
     Object.values(errors).forEach(e => {
@@ -156,5 +168,6 @@ export function useFormGroup<T>(formGroupOptions: FormGroupOptions<T>): FormGrou
     values,
     errors,
     reset,
+    setTouchedOnBlur,
   };
 }
