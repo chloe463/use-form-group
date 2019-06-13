@@ -10,6 +10,9 @@ export interface FieldControlChildrenProps {
   untouched: boolean;
   errors: ValidatorErrors;
   setValue: (value: any) => void;
+  inputRef: React.RefObject<HTMLInputElement | null>;
+  textareaRef: React.RefObject<HTMLTextAreaElement | null>;
+  selectRef: React.RefObject<HTMLSelectElement | null>;
 }
 
 interface FieldControlProps {
