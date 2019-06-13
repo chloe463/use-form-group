@@ -221,4 +221,36 @@ describe("useFormGroup", () => {
     await waitForNextUpdate();
     expect(result.current.values).toEqual({ num: 1 });
   });
+
+  it("can update touched/untouched via setTouchedOnBlur", async () => {
+    const { result } = renderHook(() =>
+      useFormGroup({
+        values: {
+          num: 0,
+        },
+      })
+    );
+
+    expect(result.current.metaInfos).toEqual({
+      num: {
+        pristine: true,
+        dirty: false,
+        touched: false,
+        untouched: true,
+      },
+    });
+
+    act(() => {
+      result.current.setTouchedOnBlur("num");
+    });
+
+    expect(result.current.metaInfos).toEqual({
+      num: {
+        pristine: true,
+        dirty: false,
+        touched: true,
+        untouched: false,
+      },
+    });
+  });
 });
