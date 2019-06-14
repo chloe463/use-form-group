@@ -17,7 +17,7 @@ export function useFormControl<T>(name: string) {
   const setValue = useCallback((value: any) => formGroup.setValue({ [name]: value }), [formGroup, name]);
 
   useEffect(() => {
-    const element = inputRef.current || selectRef.current;
+    const element = inputRef.current || textareaRef.current || selectRef.current;
     if (!element) {
       return;
     }
@@ -26,6 +26,7 @@ export function useFormControl<T>(name: string) {
     return () => {
       element.removeEventListener("blur", onBlur);
     };
+    // NOTE: Call this effect onMount only.
     /* eslint-disable-next-line */
   }, []);
 
