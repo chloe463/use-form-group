@@ -54,8 +54,8 @@ const App = () => {
 
   React.useEffect(() => {
     // eslint-disable-next-line
-    console.log(formGroup);
-  }, [formGroup]);
+    console.log(formGroup.values);
+  }, [formGroup.values]);
 
   return (
     <div className="App">

@@ -7,7 +7,15 @@ interface Props {
 }
 
 export const RadioField: React.FC<Props> = ({ radios }) => {
-  const { value, setValue, errors, ...meta } = useFormControl("radio");
+  const {
+    value,
+    setValue,
+    errors,
+    inputRef,
+    selectRef: _selectRef,
+    textareaRef: _textareaRef,
+    ...meta
+  } = useFormControl("radio");
   return (
     <>
       {radios.map(radio => {
@@ -20,6 +28,7 @@ export const RadioField: React.FC<Props> = ({ radios }) => {
               value={radio.value}
               onChange={e => setValue(e.target.value)}
               checked={value === radio.value}
+              ref={inputRef}
             />
             <span>{radio.key}</span>
           </label>
