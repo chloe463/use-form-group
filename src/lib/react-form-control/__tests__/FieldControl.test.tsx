@@ -25,7 +25,7 @@ const MockComponent: React.FC<{}> = () => {
                 ref={inputRef}
                 data-testid="input"
               />
-              ;<span data-testid="value">{value}</span>
+              <span data-testid="value">{value}</span>
               <span data-testid="touched">{touched ? "true" : "false"}</span>
               <span data-testid="untouched">{untouched ? "true" : "false"}</span>
             </>
