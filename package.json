@@ -47,5 +47,9 @@
     "collectCoverageFrom": [
       "src/lib/**/*.{tsx,ts}"
     ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chloe463/use-form-group"
   }
 }
