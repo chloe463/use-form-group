@@ -86,3 +86,31 @@ describe("FieldControl", () => {
     }
   });
 });
+
+const MockComponentWithoutRef: React.FC<{}> = () => {
+  const formGroup = useFormGroup({
+    values: {
+      text: "",
+    },
+  });
+  return (
+    <FormGroupProvider formGroup={formGroup}>
+      <FieldControl name="text">
+        {({ value, setValue }) => {
+          return (
+            <>
+              <input type="text" value={value} onChange={e => setValue(e.target.value)} data-testid="input" />
+            </>
+          );
+        }}
+      </FieldControl>
+    </FormGroupProvider>
+  );
+};
+
+describe("FieldControl without inputRef", () => {
+  it("works correctly without *Ref", () => {
+    const container = render(<MockComponentWithoutRef />);
+    expect(container).toBeTruthy();
+  });
+});
