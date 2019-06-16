@@ -79,7 +79,7 @@ const TextField = () => {
 
 If you want to manage an array of value, `useFormArray` would help you.
 It wraps `useFormControl`, so you can use every variable and function which is returned from `useFormControl`.
-Additionally, `useFormArray` provides `addOrRemoveValue` and `hasValue`.
+Additionally, it provides `addOrRemoveValue` and `hasValue`.
 
 |||
 |:-|:-|
