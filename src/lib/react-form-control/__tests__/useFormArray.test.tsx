@@ -5,27 +5,27 @@ import { useFormGroup } from "../useFormGroup";
 import { useFormArray } from "../useFormArray";
 
 const MockCheckboxComponent: React.FC = () => {
-  const { value, addOrRemoveValue } = useFormArray("numbers");
+  const { hasValue, addOrRemoveValue } = useFormArray("numbers");
   return (
     <>
       <input
         type="checkbox"
         value={1}
-        checked={value.includes("1")}
+        checked={hasValue("1")}
         data-testid="checkbox1"
         onChange={e => addOrRemoveValue(e.target)}
       />
       <input
         type="checkbox"
         value={2}
-        checked={value.includes("2")}
+        checked={hasValue("2")}
         data-testid="checkbox2"
         onChange={e => addOrRemoveValue(e.target)}
       />
       <input
         type="checkbox"
         value={3}
-        checked={value.includes("3")}
+        checked={hasValue("3")}
         data-testid="checkbox3"
         onChange={e => addOrRemoveValue(e.target)}
       />

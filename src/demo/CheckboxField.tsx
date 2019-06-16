@@ -11,7 +11,7 @@ export const CheckboxField: React.FC<Props> = ({ checkboxes }) => {
     value: currentValue,
     setValue,
     addOrRemoveValue,
-    selected,
+    hasValue,
     errors,
     inputRef,
     selectRef: _selectRef,
@@ -26,7 +26,7 @@ export const CheckboxField: React.FC<Props> = ({ checkboxes }) => {
             <input
               type="checkbox"
               value={checkbox.value}
-              checked={selected(checkbox.value)}
+              checked={hasValue(checkbox.value)}
               onChange={e => addOrRemoveValue(e.target)}
               ref={inputRef}
             />
