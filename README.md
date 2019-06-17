@@ -68,8 +68,6 @@ const TextField = () => {
   return (
     <>
       <input type="text" value={value} onChange={e => setValue(e.target.value)} />
-      {touched && errors && JSON.stringify(errors)}
-      {JSON.stringify({ pristine, dirty }, null, 2)}
     </>
   );
 };
