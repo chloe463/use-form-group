@@ -89,10 +89,6 @@ const App = () => {
                 <SelectField options={options} />
               </div>
             </div>
-            <div className="form__item">
-              <h2 className="form__item-label">Form Status</h2>
-              <div className="form__item-field">Status: {formGroup.status}</div>
-            </div>
           </form>
           <div className="preview">
             <pre className="preview__values">
