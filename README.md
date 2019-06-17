@@ -10,6 +10,8 @@ A react hooks library to control form value state. This library is inspired by A
 
 ## Usage
 
+### useFormGroup
+
 You can build form state with `useFormGroup`.
 To initialize it, pass `values`, `validators`(optional) and `lazyInit` function (optional) which initializes values asynchronously.
 
@@ -42,6 +44,8 @@ const AwesomeFormComponent = () => {
 };
 ```
 
+### useFormControl
+
 To use value and update it, you can use `useFormControl`.
 With `useFormControl` you will get...
 
@@ -64,9 +68,54 @@ const TextField = () => {
   return (
     <>
       <input type="text" value={value} onChange={e => setValue(e.target.value)} />
-      {touched && errors && JSON.stringify(errors)}
-      {JSON.stringify({ pristine, dirty }, null, 2)}
     </>
   );
 };
+```
+
+### useFormArray
+
+If you want to manage an array of value, `useFormArray` would help you.
+It wraps `useFormControl`, so you can use every variable and function which is returned from `useFormControl`.
+Additionally, it provides `addOrRemoveValue` and `hasValue`.
+
+|||
+|:-|:-|
+|addOrRemoveValue: `({ value: any, checked?: boolean }) => void`|A function to add value to the array or remove value from the array.|
+|hasValue: `(value: any) => boolean`|Check wheather value is in the array.|
+
+
+```tsx
+const CheckboxField: React.FC<Props> = ({ checkboxes }) => {
+  const {
+    value,
+    setValue,
+    addOrRemoveValue,
+    hasValue,
+    errors,
+    inputRef,
+    selectRef: _selectRef,
+    textareaRef: _textareaRef,
+    ...meta
+  } = useFormArray("checkbox");
+  return (
+    <>
+      {checkboxes.map(checkbox => {
+        return (
+          <label key={checkbox.value}>
+            <input
+              type="checkbox"
+              value={checkbox.value}
+              checked={hasValue(checkbox.value)}
+              onChange={e => addOrRemoveValue(e.target)}
+              ref={inputRef}
+            />
+            <span>{checkbox.value}</span>
+          </label>
+        );
+      })}
+    </>
+  );
+};
+
 ```

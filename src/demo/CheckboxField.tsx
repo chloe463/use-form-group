@@ -1,5 +1,5 @@
 import React from "react";
-import { useFormControl } from "../lib/react-form-control";
+import { useFormArray } from "../lib/react-form-control";
 import { MetaAndErrors } from "./MetaAndErrors";
 
 interface Props {
@@ -10,30 +10,24 @@ export const CheckboxField: React.FC<Props> = ({ checkboxes }) => {
   const {
     value: currentValue,
     setValue,
+    addOrRemoveValue,
+    hasValue,
     errors,
     inputRef,
     selectRef: _selectRef,
     textareaRef: _textareaRef,
     ...meta
-  } = useFormControl("checkbox");
+  } = useFormArray("checkbox");
   return (
     <>
       {checkboxes.map(checkbox => {
-        const checked = !!currentValue.find((v: any) => v === checkbox.value);
         return (
           <label key={checkbox.value} className="Checkbox__option">
             <input
               type="checkbox"
               value={checkbox.value}
-              checked={checked}
-              onChange={e => {
-                const { value, checked } = e.target;
-                if (checked) {
-                  setValue([...currentValue, value]);
-                } else {
-                  setValue([...currentValue.filter((v: any) => v !== value)]);
-                }
-              }}
+              checked={hasValue(checkbox.value)}
+              onChange={e => addOrRemoveValue(e.target)}
               ref={inputRef}
             />
             <span>{checkbox.value}</span>
