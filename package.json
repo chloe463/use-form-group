@@ -1,6 +1,6 @@
 {
   "name": "@chloe463/use-form-group",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "license": "MIT",
   "dependencies": {
     "@types/jest": "24.0.11",
