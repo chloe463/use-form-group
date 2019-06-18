@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import octocat from "../GitHub-Mark-32px.png";
 
 import { FormGroupProvider, Validators, useFormGroup } from "../lib/react-form-control";
 import { TextField } from "./TextField";
@@ -59,6 +60,12 @@ const App = () => {
 
   return (
     <div className="App">
+      <div className="App__link-to-repo">
+        <a href="https://github.com/chloe463/use-form-group">
+          <img src={octocat} />
+        </a>
+      </div>
+
       <div className="App__title-container">
         <h1 className="App__title">useFormGroup sample app</h1>
       </div>
