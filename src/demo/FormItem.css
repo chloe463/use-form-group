@@ -1,12 +1,12 @@
 .TextField__input {
-  background-color: #424242;
-  color: #ffffff;
+  background-color: #ffffff;
+  color: #424242;
   outline: none;
   border: none;
   font-size: 12pt;
-  text-indent: 4px;
   height: 32px;
-  width: 50%;
+  width: 85%;
+  border-bottom: 1px solid #424242;
 }
 
 .Radio__option {

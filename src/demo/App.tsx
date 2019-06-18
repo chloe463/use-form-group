@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import octocat from "../GitHub-Mark-32px.png";
 
 import { FormGroupProvider, Validators, useFormGroup } from "../lib/react-form-control";
 import { TextField } from "./TextField";
@@ -59,40 +60,58 @@ const App = () => {
 
   return (
     <div className="App">
+      <div className="App__link-to-repo">
+        <a href="https://github.com/chloe463/use-form-group">
+          <img src={octocat} />
+        </a>
+      </div>
+
       <div className="App__title-container">
         <h1 className="App__title">useFormGroup sample app</h1>
       </div>
       <FormGroupProvider formGroup={formGroup}>
-        <form className="form">
-          <div className="form__item">
-            <h2 className="form__item-label">Text field</h2>
-            <div className="form__item-field">
-              <TextField />
+        <div className="container">
+          <form className="form">
+            <div className="form__item">
+              <h2 className="form__item-label">Text field</h2>
+              <div className="form__item-field">
+                <TextField />
+              </div>
             </div>
-          </div>
-          <div className="form__item">
-            <h2 className="form__item-label">Radio buttons</h2>
-            <div className="form__item-field">
-              <RadioField radios={radios} />
+            <div className="form__item">
+              <h2 className="form__item-label">Radio buttons</h2>
+              <div className="form__item-field">
+                <RadioField radios={radios} />
+              </div>
             </div>
-          </div>
-          <div className="form__item">
-            <h2 className="form__item-label">Checkboxes</h2>
-            <div className="form__item-field">
-              <CheckboxField checkboxes={checkboxes} />
+            <div className="form__item">
+              <h2 className="form__item-label">Checkboxes</h2>
+              <div className="form__item-field">
+                <CheckboxField checkboxes={checkboxes} />
+              </div>
             </div>
-          </div>
-          <div className="form__item">
-            <h2 className="form__item-label">Selection</h2>
-            <div className="form__item-field">
-              <SelectField options={options} />
+            <div className="form__item">
+              <h2 className="form__item-label">Selection</h2>
+              <div className="form__item-field">
+                <SelectField options={options} />
+              </div>
             </div>
+          </form>
+          <div className="preview">
+            <pre className="preview__values">
+              {JSON.stringify(
+                {
+                  status: formGroup.status,
+                  values: formGroup.values,
+                  errors: formGroup.errors,
+                  meta: formGroup.metaInfos,
+                },
+                null,
+                2
+              )}
+            </pre>
           </div>
-          <div className="form__item">
-            <h2 className="form__item-label">Form Status</h2>
-            <div className="form__item-field">Status: {formGroup.status}</div>
-          </div>
-        </form>
+        </div>
       </FormGroupProvider>
     </div>
   );
