@@ -15,19 +15,6 @@ interface State {
   select: string;
 }
 
-const lazyInit = () => {
-  return new Promise<State>(resolve => {
-    setTimeout(() => {
-      resolve({
-        text: "lazy init!!!",
-        radio: "3",
-        checkbox: ["val2"],
-        select: "2",
-      });
-    }, 1500);
-  });
-};
-
 const App = () => {
   const radios = [{ key: "radio1", value: "1" }, { key: "radio2", value: "2" }, { key: "radio3", value: "3" }];
   const options = [{ key: "option1", value: "1" }, { key: "option2", value: "2" }, { key: "option3", value: "3" }];
@@ -48,7 +35,6 @@ const App = () => {
       text: [Validators.required, Validators.maxLength(5)],
       checkbox: Validators.required,
     },
-    lazyInit,
   };
 
   const formGroup = useFormGroup<State>(formGroupOptions);

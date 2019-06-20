@@ -3,6 +3,7 @@
 [![CircleCI](https://circleci.com/gh/chloe463/use-form-group/tree/master.svg?style=shield)](https://circleci.com/gh/chloe463/use-form-group/tree/master)
 [![codecov](https://codecov.io/gh/chloe463/use-form-group/branch/master/graph/badge.svg)](https://codecov.io/gh/chloe463/use-form-group)
 [![npmVersion](https://img.shields.io/npm/v/@chloe463/use-form-group.svg)](https://www.npmjs.com/package/@chloe463/use-form-group)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/8e94a15a-e810-4e37-b897-f943a557726b/deploy-status)](https://app.netlify.com/sites/useformgroup/deploys)
 
 ## Overview
 
