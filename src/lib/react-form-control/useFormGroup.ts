@@ -70,9 +70,7 @@ export function useFormGroup<T>(formGroupOptions: FormGroupOptions<T>): FormGrou
   const [status, setStatus] = useState<null | FormGroupStatus>("VALID");
   const { lazyInit } = formGroupOptions;
 
-  const { validators } = useMemo(() => {
-    return initValidators(formGroupOptions.validators);
-  }, [formGroupOptions]);
+  const { validators } = useMemo(() => initValidators(formGroupOptions.validators), [formGroupOptions]);
 
   // TODO: Validate initial values on mount
 
@@ -149,16 +147,8 @@ export function useFormGroup<T>(formGroupOptions: FormGroupOptions<T>): FormGrou
   }, []);
 
   useEffect(() => {
-    let hasError = false;
-    Object.values(errors).forEach(e => {
-      if (e !== null && Object.keys(e).length > 0) {
-        setStatus("INVALID");
-        hasError = true;
-      }
-    });
-    if (!hasError) {
-      setStatus("VALID");
-    }
+    const hasError = Boolean(Object.values(errors).filter(e => e !== null && Object.keys(e).length > 0).length);
+    setStatus(hasError ? "INVALID" : "VALID");
   }, [errors]);
 
   return {
