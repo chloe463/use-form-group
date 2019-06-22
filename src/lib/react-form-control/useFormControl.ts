@@ -23,9 +23,7 @@ export function useFormControl<T>(name: string) {
     }
     const onBlur = () => setTouchedOnBlur(name);
     element.addEventListener("blur", onBlur);
-    return () => {
-      element.removeEventListener("blur", onBlur);
-    };
+    return () => element.removeEventListener("blur", onBlur);
     // NOTE: Call this effect onMount only.
     /* eslint-disable-next-line */
   }, []);
