@@ -79,6 +79,7 @@ describe("useFormGroup", () => {
         untouched: true,
       },
     });
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     act(() => {
       result.current.setValue({ num: 1 });
     });
@@ -105,6 +106,7 @@ describe("useFormGroup", () => {
       })
     );
     expect(result.current.errors).toEqual({ num: null });
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     act(() => {
       result.current.setValue({ num: 5 });
     });
@@ -113,6 +115,7 @@ describe("useFormGroup", () => {
     });
     expect(result.current.status).toBe("INVALID");
 
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     act(() => {
       result.current.setValue({ num: 2 });
     });
@@ -170,6 +173,7 @@ describe("useFormGroup", () => {
         },
       })
     );
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     act(() => {
       result.current.setValue({ num: 1 });
     });
@@ -183,6 +187,7 @@ describe("useFormGroup", () => {
       },
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     act(() => {
       result.current.reset();
     });
@@ -210,11 +215,13 @@ describe("useFormGroup", () => {
     await waitForNextUpdate();
     expect(result.current.values).toEqual({ num: 1 });
 
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     act(() => {
       result.current.setValue({ num: 2 });
     });
     expect(result.current.values).toEqual({ num: 2 });
 
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     act(() => {
       result.current.reset();
     });
@@ -240,6 +247,7 @@ describe("useFormGroup", () => {
       },
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     act(() => {
       result.current.setTouchedOnBlur("num");
     });
