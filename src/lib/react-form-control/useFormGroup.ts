@@ -86,6 +86,8 @@ export function useFormGroup<T>(formGroupOptions: FormGroupOptions<T>): FormGrou
         });
         setValues(currentValues => ({ ...currentValues, ...values }));
         setErrors(currentErrors => ({ ...currentErrors, ...newErrors }));
+      }).catch(e => {
+        throw e;
       });
     },
     [validators]

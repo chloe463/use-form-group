@@ -4,5 +4,10 @@
     "react": {
       "version": "detect"
     }
+  },
+  "parserOptions": {
+    "project": [
+      "./tsconfig.json"
+    ]
   }
 }
