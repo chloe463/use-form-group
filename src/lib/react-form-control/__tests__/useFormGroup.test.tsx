@@ -1,4 +1,4 @@
-import { renderHook, act } from "react-hooks-testing-library";
+import { renderHook, act } from "@testing-library/react-hooks";
 import { initMeta, initValidators, useFormGroup } from "../useFormGroup";
 import { Validators } from "../Validators";
 
