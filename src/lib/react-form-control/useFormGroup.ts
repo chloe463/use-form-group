@@ -7,7 +7,6 @@ type ValidatorsOption<T> = { [key in keyof T]?: Validator | Validator[] };
 export interface FormGroupOptions<T extends Record<string, any>> {
   values: T;
   validators?: ValidatorsOption<T>;
-  lazyInit?: () => Promise<T>;
 }
 
 export interface Meta {
@@ -68,46 +67,15 @@ export function useFormGroup<T>(formGroupOptions: FormGroupOptions<T>): FormGrou
   const [metaInfos, setMetaInfo] = useState<Record<string, Meta>>(initMeta(formGroupOptions.values));
   const [errors, setErrors] = useState<ValidatorErrors>(initErrors(formGroupOptions.values));
   const [status, setStatus] = useState<null | FormGroupStatus>("VALID");
-  const { lazyInit } = formGroupOptions;
 
   const { validators } = useMemo(() => initValidators(formGroupOptions.validators), [formGroupOptions]);
 
   // TODO: Validate initial values on mount
 
-  const initializeWithLazyInitFn = useCallback(
-    (lazyInit: () => Promise<T>) => {
-      lazyInit().then(values => {
-        const newErrors: ValidatorErrors = {};
-        Object.keys(values).forEach(key => {
-          const validator = validators[key];
-          if (validator) {
-            newErrors[key] = validator((values as Record<string, any>)[key]);
-          }
-        });
-        setValues(currentValues => ({ ...currentValues, ...values }));
-        setErrors(currentErrors => ({ ...currentErrors, ...newErrors }));
-      }).catch(e => {
-        throw e;
-      });
-    },
-    [validators]
-  );
-
-  useEffect(() => {
-    if (lazyInit) {
-      initializeWithLazyInitFn(lazyInit);
-    }
-    // NOTE: Call lazeInit only once on mount.
-    // eslint-disable-next-line
-  }, []);
-
   const reset = useCallback(() => {
     setValues(initialValues);
     setMetaInfo(initMeta(initialValues));
     setErrors({});
-    if (lazyInit) {
-      initializeWithLazyInitFn(lazyInit);
-    }
     // eslint-disable-next-line
   }, []);
 
