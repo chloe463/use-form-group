@@ -12,7 +12,7 @@ jobs:
 
       - restore_cache:
           keys:
-          - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+          - v1-dependencies-{{ .Branch }}-{{ checksum "yarn.lock" }}
           - v1-dependencies-{{ .Branch }}-
           # - v1-dependencies-
 
@@ -21,7 +21,7 @@ jobs:
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+          key: v1-dependencies-{{ .Branch }}-{{ checksum "yarn.lock" }}
 
       - run: yarn lint
       - run: yarn test
