@@ -39,7 +39,7 @@
     "@testing-library/react-hooks": "^3.2.1",
     "codecov": "^3.6.1",
     "frolint": "^0.8.6",
-    "react-test-renderer": "^16.8.0",
+    "react-test-renderer": "^16.12.0",
     "rollup": "^1.14.4",
     "stop-runaway-react-effects": "^1.2.0"
   },
