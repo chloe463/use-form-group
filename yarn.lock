@@ -3324,18 +3324,7 @@ cosmiconfig@^4.0.0:
     parse-json "^4.0.0"
     require-from-string "^2.0.1"
 
-cosmiconfig@^5.0.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/cosmiconfig/-/cosmiconfig-5.1.0.tgz#6c5c35e97f37f985061cdf653f114784231185cf"
-  integrity sha512-kCNPvthka8gvLtzAxQXvWo4FxqRB+ftRZyPZNuab5ngvM9Y7yw7hbEysglptLgpkGX9nAOKTBVkHUAe8xtYR6Q==
-  dependencies:
-    import-fresh "^2.0.0"
-    is-directory "^0.3.1"
-    js-yaml "^3.9.0"
-    lodash.get "^4.4.2"
-    parse-json "^4.0.0"
-
-cosmiconfig@^5.2.1:
+cosmiconfig@^5.0.0, cosmiconfig@^5.2.1:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/cosmiconfig/-/cosmiconfig-5.2.1.tgz#040f726809c591e77a17c0a3626ca45b4f168b1a"
   integrity sha512-H65gsXo1SKjf8zmrJ67eJk8aIRKV5ff2D4uKZIBZShbhGSpEmsQOPW/SKMKYhSTrqR7ufy6RP69rPogdaPh/kA==
@@ -4229,10 +4218,10 @@ eslint-config-react-app@^5.1.0:
   dependencies:
     confusing-browser-globals "^1.0.9"
 
-eslint-config-wantedly-typescript@^0.8.6:
-  version "0.8.6"
-  resolved "https://registry.yarnpkg.com/eslint-config-wantedly-typescript/-/eslint-config-wantedly-typescript-0.8.6.tgz#6f94c8a04e6becc231f809f9c17830c3fe765a81"
-  integrity sha512-m3mzzsaiMA6+AzoXbyNuwTia/kafqepgVfmhdtK1nrYd89gopfN6N09o16LUqyqY+tSH6SGuxWbGEi9W4nNO0w==
+eslint-config-wantedly-typescript@^0.8.8:
+  version "0.8.8"
+  resolved "https://registry.yarnpkg.com/eslint-config-wantedly-typescript/-/eslint-config-wantedly-typescript-0.8.8.tgz#73fca1f6fcd13ccd931542224b54ec5201a96836"
+  integrity sha512-lvauwJR0ncRgXhgtLm/sd3m+kY1s9MZ3NOHYbvgNxBH7cPx9tEchmY6CUQ4RxNK+t+ZXHXI+jTMr5u4zYvcUPQ==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^2.0.0"
     "@typescript-eslint/parser" "^2.0.0"
@@ -4244,12 +4233,12 @@ eslint-config-wantedly-typescript@^0.8.6:
     eslint-plugin-prettier "^3.1.0"
     eslint-plugin-react "^7.14.2"
     eslint-plugin-react-hooks "^2.0.1"
-    eslint-plugin-use-macros "^0.8.6"
+    eslint-plugin-use-macros "^0.8.8"
 
-eslint-config-wantedly@^0.8.6:
-  version "0.8.6"
-  resolved "https://registry.yarnpkg.com/eslint-config-wantedly/-/eslint-config-wantedly-0.8.6.tgz#05bb5b2670881b6e2e7f9d238ac3cbd76be1471e"
-  integrity sha512-qzg17Gz+iw+SJbFd+fpZe8SgKNn1vU0hpqzogUZZYl1+jTqEGfNfLlpiYEShaJBI1ZAsNN2bjf5xp6fCObNRVQ==
+eslint-config-wantedly@^0.8.8:
+  version "0.8.8"
+  resolved "https://registry.yarnpkg.com/eslint-config-wantedly/-/eslint-config-wantedly-0.8.8.tgz#1d833446fb491320055a24dbbcd0f5c8d141e9ab"
+  integrity sha512-kxMkTND0fVZNUPNCixphXLNO/zBRRBiTOdHFALD0pvzTSIzz4HX0ybk2dqqHK7oiH2TExLJLyBAUdMknicLUyw==
   dependencies:
     babel-eslint "^10.0.2"
     eslint "^6.0.1"
@@ -4260,7 +4249,7 @@ eslint-config-wantedly@^0.8.6:
     eslint-plugin-prettier "^3.1.0"
     eslint-plugin-react "^7.14.2"
     eslint-plugin-react-hooks "^2.0.1"
-    eslint-plugin-use-macros "^0.8.6"
+    eslint-plugin-use-macros "^0.8.8"
 
 eslint-import-resolver-node@^0.3.2:
   version "0.3.2"
@@ -4406,10 +4395,10 @@ eslint-plugin-react@^7.14.2:
     prop-types "^15.7.2"
     resolve "^1.13.1"
 
-eslint-plugin-use-macros@^0.8.6:
-  version "0.8.6"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-use-macros/-/eslint-plugin-use-macros-0.8.6.tgz#ebd542c000940f8dd0941c42bb4ff9470ae08e35"
-  integrity sha512-ekUCxkZvYP7VBQqxgxCkCMY4lYVpl2734TZwiv9gnYl7QZqISPjWoESBeXY7fzn8c1goveMJsvt2LECQb63iTA==
+eslint-plugin-use-macros@^0.8.8:
+  version "0.8.8"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-use-macros/-/eslint-plugin-use-macros-0.8.8.tgz#bcf6a98ad849a56f54f36a798d2115ceefa3f676"
+  integrity sha512-Ld/u9ArDhxmdqV3mOZ0NUkNbZTIh+rhUMX7LTFcOSxLGsxxpZJu4i3ZaNnQblirgJjpLocpZVKlFRKPm+ipKXw==
 
 eslint-scope@^4.0.3:
   version "4.0.3"
@@ -4976,20 +4965,20 @@ fresh@0.5.2:
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
   integrity sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=
 
-frolint@^0.8.6:
-  version "0.8.6"
-  resolved "https://registry.yarnpkg.com/frolint/-/frolint-0.8.6.tgz#cccef5168999e4cd92a0f6182ff04767dc42cdc8"
-  integrity sha512-wHgsy28FtzXXcj0ZrjvX5vo7/K3h1VFftyxZvfFFO3ISMrDxrdmAKD1vDLmE9nKT2pTFmz/dUijHGZMmBCR8Jg==
+frolint@^0.8.8:
+  version "0.8.8"
+  resolved "https://registry.yarnpkg.com/frolint/-/frolint-0.8.8.tgz#17c80efdf57a8d585f990e1a132d41b442e3566b"
+  integrity sha512-wGAj5PrZAkN/VxoNebXzoi3kXACUNKqmTEAUi183MDE21jGnQEBidCCmT83622i3Yd2ErlYfptOK7yxTRJIXCQ==
   dependencies:
     chalk "^3.0.0"
     clipanion "^2.1.3"
     command-exists "^1.2.8"
     cosmiconfig "^6.0.0"
     eslint "^6.0.1"
-    eslint-config-wantedly "^0.8.6"
-    eslint-config-wantedly-typescript "^0.8.6"
+    eslint-config-wantedly "^0.8.8"
+    eslint-config-wantedly-typescript "^0.8.8"
     prettier "^1.19.1"
-    prettier-config-wantedly "^0.8.6"
+    prettier-config-wantedly "^0.8.8"
     resolve "^1.10.0"
 
 from2@^2.1.0:
@@ -6859,11 +6848,6 @@ lodash._reinterpolate@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz#0ccf2d89166af03b3663c796538b75ac6e114d9d"
   integrity sha1-DM8tiRZq8Ds2Y8eWU4t1rG4RTZ0=
-
-lodash.get@^4.4.2:
-  version "4.4.2"
-  resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
-  integrity sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=
 
 lodash.memoize@^4.1.2:
   version "4.1.2"
@@ -8870,10 +8854,10 @@ prepend-http@^1.0.0:
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-1.0.4.tgz#d4f4562b0ce3696e41ac52d0e002e57a635dc6dc"
   integrity sha1-1PRWKwzjaW5BrFLQ4ALlemNdxtw=
 
-prettier-config-wantedly@^0.8.6:
-  version "0.8.6"
-  resolved "https://registry.yarnpkg.com/prettier-config-wantedly/-/prettier-config-wantedly-0.8.6.tgz#338a268d46c53e406b1f792c122a9942f1c93538"
-  integrity sha512-ksfhImjHW2uLgaAIO660szOLmcTSntsFW7lfvPZoHWBccADefbL08a4rwz60mMsl9Yx8coyahotljlNKlX/4WA==
+prettier-config-wantedly@^0.8.8:
+  version "0.8.8"
+  resolved "https://registry.yarnpkg.com/prettier-config-wantedly/-/prettier-config-wantedly-0.8.8.tgz#b2b0c07986364b7fab8a4e1d845a51bc7cff0c5b"
+  integrity sha512-TMea8ZiRDhAc+QpSa3g/SO8fnDYe//7n2Q3xuL6pDJjKnqCkh6XCY8wTv6tLq2wNZmZI/X2rtox32RP9Wjf62A==
 
 prettier-linter-helpers@^1.0.0:
   version "1.0.0"
