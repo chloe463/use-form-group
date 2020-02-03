@@ -37,7 +37,7 @@
   "devDependencies": {
     "@testing-library/react": "^9.4.0",
     "@testing-library/react-hooks": "^3.2.1",
-    "codecov": "^3.6.1",
+    "codecov": "^3.6.4",
     "frolint": "^0.8.6",
     "react-test-renderer": "^16.9.0",
     "rollup": "^1.27.14",
