@@ -7,6 +7,8 @@
 
 ## Overview
 
+⚠ **This repository is deprecated but development continues on new repository → https://github.com/chloe463/yorha.**
+
 A react hooks library to control form value state. This library is inspired by Angular's [ReactiveFormModule](https://angular.io/guide/reactive-forms).
 
 ## Usage
@@ -27,17 +29,22 @@ import {
 const AwesomeFormComponent = () => {
   const formGroup = useFormGroup({
     values: {
-      username: "",
+      username: ""
     },
     validators: {
-      username: [Validators.required, Validators.maxLength(3)],
-    },
+      username: [Validators.required, Validators.maxLength(3)]
+    }
   });
 
   return (
     <FormGroupProvider formGroup={formGroup}>
       <form>
-        <button onClick={/* do something */} disabled={formGroup.status === "INVALID"}>Submit</button>
+        <button
+          onClick={/* do something */}
+          disabled={formGroup.status === "INVALID"}
+        >
+          Submit
+        </button>
         <TextField />
       </form>
     </FormGroupProvider>
@@ -50,25 +57,31 @@ const AwesomeFormComponent = () => {
 To use value and update it, you can use `useFormControl`.
 With `useFormControl` you will get...
 
-|||
-|:-|:-|
-|value: any ||
-|setValue: `(value: any) => void` |A function to update the value|
-|errors: `{[key: string]: any}` |Validation errors|
-|pristine: boolean |True if the value is not updated|
-|dirty: boolean |True if the value is updated|
-|touched: boolean |True if the form is focused|
-|untouched: boolean |True if the form is not focused|
+|                                  |                                  |
+| :------------------------------- | :------------------------------- |
+| value: any                       |                                  |
+| setValue: `(value: any) => void` | A function to update the value   |
+| errors: `{[key: string]: any}`   | Validation errors                |
+| pristine: boolean                | True if the value is not updated |
+| dirty: boolean                   | True if the value is updated     |
+| touched: boolean                 | True if the form is focused      |
+| untouched: boolean               | True if the form is not focused  |
 
 ```tsx
 import React from "react";
 import { useFormControl } from "@chloe463/use-form-group";
 
 const TextField = () => {
-  const { value, setValue, errors, touched, pristine, dirty } = useFormControl("text");
+  const { value, setValue, errors, touched, pristine, dirty } = useFormControl(
+    "text"
+  );
   return (
     <>
-      <input type="text" value={value} onChange={e => setValue(e.target.value)} />
+      <input
+        type="text"
+        value={value}
+        onChange={e => setValue(e.target.value)}
+      />
     </>
   );
 };
@@ -80,11 +93,10 @@ If you want to manage an array of value, `useFormArray` would help you.
 It wraps `useFormControl`, so you can use every variable and function which is returned from `useFormControl`.
 Additionally, it provides `addOrRemoveValue` and `hasValue`.
 
-|||
-|:-|:-|
-|addOrRemoveValue: `({ value: any, checked?: boolean }) => void`|A function to add value to the array or remove value from the array.|
-|hasValue: `(value: any) => boolean`|Check wheather value is in the array.|
-
+|                                                                 |                                                                      |
+| :-------------------------------------------------------------- | :------------------------------------------------------------------- |
+| addOrRemoveValue: `({ value: any, checked?: boolean }) => void` | A function to add value to the array or remove value from the array. |
+| hasValue: `(value: any) => boolean`                             | Check wheather value is in the array.                                |
 
 ```tsx
 const CheckboxField: React.FC<Props> = ({ checkboxes }) => {
@@ -118,5 +130,4 @@ const CheckboxField: React.FC<Props> = ({ checkboxes }) => {
     </>
   );
 };
-
 ```
